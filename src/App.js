@@ -7,6 +7,7 @@ import SideNavigation from './components/SideNavigation/';
 import BreadcrumbItem from './components/BreadcrumbItem';
 import AuthPage from './pages/AuthPage/';
 import HomePage from './pages/HomePage/';
+import AccountManagerPage from './pages/AccountManagerPage/';
 const { Header, Content, Sider, Footer } = Layout;
 function App() {
 
@@ -36,7 +37,7 @@ function App() {
 									<AuthPage />
 								</Route>
 								<Route path="/users" >
-									<HomePage />
+									<AccountManagerPage />
 								</Route>
 							</Switch>
 						</Content>

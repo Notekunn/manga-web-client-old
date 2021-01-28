@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Form, Input, Result, Button } from 'antd';
-import { useMutation } from 'urql';
-import { mutationRegister } from '../../graphql/mutation';
 const formItemLayout = {
     labelCol: {
         xs: {
@@ -25,15 +23,10 @@ const RegistrationForm = ({ form, setModalVisible, setConfirmLoading }) => {
     const [form1] = Form.useForm();
     const [isSuccess, setIsSuccess] = useState(false);
     const [isError, setIsError] = useState(false);
-    const [, register] = useMutation(mutationRegister);
     const onFinish = (values) => {
         const { email, password, userName, name } = values;
+        // eslint-disable-next-line no-unused-vars
         const variables = { email, password, userName, name };
-        register(variables).then(res => {
-            setConfirmLoading(false);
-            if (res.error) setIsError(true);
-            else setIsSuccess(true);
-        })
     };
     if (isSuccess) return (
         <Result
