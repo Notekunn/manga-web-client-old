@@ -1,12 +1,12 @@
 import { useCallback } from 'react'
-import { Form, Input, Button, Checkbox, Spin } from 'antd';
+import { Form, Input, Button, Checkbox, Spin, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import * as userAction from '../../actions/user';
 import './index.css'
 const NormalLoginForm = (props) => {
-    const { login, loggedIn, loggingIn } = props;
+    const { login, loggedIn, loggingIn, loggingError } = props;
     const onFinish = useCallback(
         (fields) => {
             let userName = fields.userName.trim(), password = fields.password.trim();
@@ -17,7 +17,13 @@ const NormalLoginForm = (props) => {
     )
     if (loggedIn) return (<Redirect to="/" />)
     return (
-        <Spin size="large" spinning={loggingIn}>
+        <Spin size="large" spinning={!!loggingIn}>
+            {!!loggingError && <Alert
+                message={loggingError}
+                type="error"
+                showIcon
+                style={{ marginBottom: 20 }}
+            />}
             <Form name="normal_login" className="login-form" initialValues={{
                 remember: true,
             }} onFinish={onFinish}>
@@ -52,10 +58,11 @@ const NormalLoginForm = (props) => {
     );
 };
 const mapStateToProps = (state) => {
+    const { loggedIn, loggingIn, loggingError } = state.authentication;
     return {
-        loggingIn: state.authentication.loggingIn || false,
-        loggedIn: state.authentication.loggedIn || false,
-        user: state.authentication.user || {}
+        loggedIn,
+        loggingIn,
+        loggingError
     }
 }
 const mapDispatchToProps = (dispatch) => {

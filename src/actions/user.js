@@ -34,7 +34,6 @@ export const login = (userName, password) => {
             })
             .catch(error => {
                 dispatch(loginFailure(error.message))
-                dispatch(showError("Lỗi đăng nhập: " + error.message))
             })
     }
 }

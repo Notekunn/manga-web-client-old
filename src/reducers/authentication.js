@@ -22,14 +22,10 @@ const authenticationReducer = (state = initialState, action) => {
             };
         case userConstants.LOGIN_FAILURE:
             return {
-                isError: true,
                 loggingError: action.payload.error
             }
         case userConstants.LOGOUT:
-            return {
-                loggedIn: false,
-                loggingIn: false
-            }
+            return {}
         default:
             return state;
     }
