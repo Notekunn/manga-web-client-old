@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { Link } from "react-router-dom";
-import { Menu, } from 'antd';
+import Menu from 'antd/lib/menu';
 import { HomeOutlined, CaretDownOutlined, LogoutOutlined, BookOutlined, UserOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { showMessage, showError } from '../../actions/alert';

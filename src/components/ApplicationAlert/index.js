@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { message as antdMessage } from 'antd';
+import antdMessage from 'antd/lib/message';
 import { connect } from 'react-redux';
 import { clearMessage } from '../../actions/alert';
 function ApplicationAlert(props) {

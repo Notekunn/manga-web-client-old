@@ -1,4 +1,4 @@
-import { Menu } from 'antd';
+import Menu from 'antd/lib/menu';
 import { useCallback } from 'react';
 import { useHistory } from "react-router-dom";
 import { AppstoreOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';

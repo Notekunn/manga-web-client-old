@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Layout } from 'antd';
+import Layout from 'antd/lib/layout';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
 import TopNavigation from './components/TopNavigation/';
