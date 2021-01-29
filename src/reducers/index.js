@@ -2,8 +2,10 @@ import { combineReducers } from 'redux';
 
 import alertReducer from './alert';
 import authenticationReducer from './authentication';
+import userReducer from './user';
 const rootReducer = combineReducers({
     alert: alertReducer,
-    authentication: authenticationReducer
+    authentication: authenticationReducer,
+    user: userReducer
 })
 export default rootReducer;

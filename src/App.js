@@ -9,6 +9,7 @@ import ApplicationAlert from './components/ApplicationAlert';
 import AuthPage from './pages/AuthPage/';
 import HomePage from './pages/HomePage/';
 import AccountManagerPage from './pages/AccountManagerPage/';
+import ProfilePage from './pages/ProfilePage/';
 const { Header, Content, Sider, Footer } = Layout;
 function App() {
 	const [collapsed, setCollapsed] = useState(false);
@@ -36,6 +37,9 @@ function App() {
 								</Route>
 								<Route path="/users" >
 									<AccountManagerPage />
+								</Route>
+								<Route path="/me" >
+									<ProfilePage />
 								</Route>
 							</Switch>
 						</Content>

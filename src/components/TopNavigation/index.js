@@ -27,6 +27,9 @@ function TopNavigation(props) {
                 case 'users':
                     history.push('/users')
                     break;
+                case 'profile':
+                    history.push('/me')
+                    break;
                 default:
                     break;
             }

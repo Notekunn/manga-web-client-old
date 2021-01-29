@@ -13,7 +13,7 @@ axiosClient.interceptors.request.use(async (config) => {
 })
 
 axiosClient.interceptors.response.use((response) => {
-    if (response?.data?.data) {
+    if (response?.data) {
         const errors = response?.data?.errors;
         if (errors && errors[0]) {
             const error = new Error(errors[0].message);

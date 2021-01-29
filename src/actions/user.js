@@ -1,13 +1,13 @@
 import userConstants from '../constants/user';
-import { showMessage, showError } from './alert';
+import { showMessage } from './alert';
 import * as userService from '../services/user';
 
-export const loginRequest = () => {
+const loginRequest = () => {
     return {
         type: userConstants.LOGIN_REQUEST
     }
 }
-export const loginSuccess = ({ token, userId, tokenExpiration }) => {
+const loginSuccess = ({ token, userId, tokenExpiration }) => {
     return {
         type: userConstants.LOGIN_SUCCESS,
         payload: {
@@ -15,7 +15,7 @@ export const loginSuccess = ({ token, userId, tokenExpiration }) => {
         }
     }
 }
-export const loginFailure = (error) => {
+const loginFailure = (error) => {
     return {
         type: userConstants.LOGIN_FAILURE,
         payload: {
@@ -23,12 +23,29 @@ export const loginFailure = (error) => {
         }
     }
 }
+const getMeRequest = () => {
+    return {
+        type: userConstants.GETME_REQUEST
+    }
+}
+const getMeSuccess = (user) => {
+    return {
+        type: userConstants.GETME_SUCCESS,
+        payload: {
+            user
+        }
+    }
+}
+export const getMeFailure = () => {
+    return {
+        type: userConstants.GETME_FAILURE
+    }
+}
 export const login = (userName, password) => {
     return dispatch => {
         dispatch(loginRequest())
         userService.login(userName, password)
             .then(response => {
-                console.log(response);
                 dispatch(loginSuccess(response?.login || {}));
                 dispatch(showMessage("Đăng nhập thành công"))
             })
@@ -40,5 +57,16 @@ export const login = (userName, password) => {
 export const logout = () => {
     return {
         type: userConstants.LOGOUT
+    }
+}
+export const getMe = (token) => {
+    return dispatch => {
+        dispatch(getMeRequest())
+        userService.getMe(token)
+            .then(response => {
+                dispatch(getMeSuccess(response?.me || {}));
+            }).catch(error => {
+                dispatch(getMeFailure())
+            })
     }
 }
