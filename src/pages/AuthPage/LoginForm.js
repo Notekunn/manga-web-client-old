@@ -11,8 +11,6 @@ const NormalLoginForm = (props) => {
         (fields) => {
             let userName = fields.userName.trim(), password = fields.password.trim();
             if (!userName.length && !password.length) return;
-            // eslint-disable-next-line no-unused-vars
-            const variables = { userName, password };
             login(userName, password);
         },
         [login],

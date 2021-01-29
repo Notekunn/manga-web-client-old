@@ -1,6 +1,5 @@
 import axios from 'axios';
 import queryString from 'query-string';
-console.log(process.env.REACT_APP_API_URL);
 const axiosClient = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
@@ -14,11 +13,24 @@ axiosClient.interceptors.request.use(async (config) => {
 })
 
 axiosClient.interceptors.response.use((response) => {
-    if (response && response.data) {
-        return response.data;
+    if (response?.data?.data) {
+        const errors = response?.data?.errors;
+        if (errors && errors[0]) {
+            const error = new Error(errors[0].message);
+            error.status = 400;
+            throw error;
+        }
+        return response?.data?.data;
     }
     return response;
 }, (error) => {
+    console.log(error.response);
+    if (!error?.response) {
+        throw new Error("Lỗi mạng");
+    }
+    const errors = error?.response?.data?.errors;
+    if (errors && errors[0]) throw new Error(errors[0].message);
+
     throw error;
 });
 

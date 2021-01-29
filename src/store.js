@@ -11,7 +11,7 @@ const store = createStore(
     rootReducer, composeEnhancers(
         applyMiddleware(
             thunkMiddleware,
-            loggerMiddleware
+            // loggerMiddleware
         )
     )
 

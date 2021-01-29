@@ -7,11 +7,11 @@ export const loginRequest = () => {
         type: userConstants.LOGIN_REQUEST
     }
 }
-export const loginSuccess = (user) => {
+export const loginSuccess = ({ token, userId, tokenExpiration }) => {
     return {
         type: userConstants.LOGIN_SUCCESS,
         payload: {
-            user
+            token, userId, tokenExpiration
         }
     }
 }
@@ -29,13 +29,12 @@ export const login = (userName, password) => {
         userService.login(userName, password)
             .then(response => {
                 console.log(response);
-                dispatch(loginSuccess({ name: "Cường" }));
+                dispatch(loginSuccess(response?.login || {}));
                 dispatch(showMessage("Đăng nhập thành công"))
             })
             .catch(error => {
-                console.log(error);
-                dispatch(loginFailure("Tài khoản hoặc mật khẩu không đúng!"))
-                dispatch(showError("Đăng nhập thất bại"))
+                dispatch(loginFailure(error.message))
+                dispatch(showError("Lỗi đăng nhập: " + error.message))
             })
     }
 }

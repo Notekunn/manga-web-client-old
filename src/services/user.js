@@ -13,7 +13,5 @@ export const login = (userName, password) => {
         query: loginQuery,
         variables: { userName, password }
     }
-    return axiosClient.post('graphql', {
-        data
-    })
+    return axiosClient.post('graphql', data)
 }

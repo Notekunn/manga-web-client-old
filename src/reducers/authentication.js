@@ -1,9 +1,11 @@
 import userConstants from '../constants/user';
-const user = JSON.parse(localStorage.getItem('user'));
-const initialState = {
-    loggedIn: !!user,
-    user: user || {},
-};
+const { token, userId, tokenExpiration } = JSON.parse(localStorage.getItem('user') || "{}");
+const initialState = userId ? {
+    loggedIn: true,
+    token,
+    userId,
+    tokenExpiration
+} : {};
 
 const authenticationReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -14,7 +16,9 @@ const authenticationReducer = (state = initialState, action) => {
         case userConstants.LOGIN_SUCCESS:
             return {
                 loggedIn: true,
-                user: action.payload.user
+                token: action.payload.token,
+                userId: action.payload.userId,
+                tokenExpiration: action.payload.tokenExpiration
             };
         case userConstants.LOGIN_FAILURE:
             return {
