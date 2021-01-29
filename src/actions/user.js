@@ -1,5 +1,6 @@
 import userConstants from '../constants/user';
 import { showMessage, showError } from './alert';
+import * as userService from '../services/user';
 
 export const loginRequest = () => {
     return {
@@ -25,16 +26,17 @@ export const loginFailure = (error) => {
 export const login = (userName, password) => {
     return dispatch => {
         dispatch(loginRequest())
-        setTimeout(() => {
-            if (userName === "admin" && password === "admin") {
+        userService.login(userName, password)
+            .then(response => {
+                console.log(response);
                 dispatch(loginSuccess({ name: "Cường" }));
                 dispatch(showMessage("Đăng nhập thành công"))
-            }
-            else {
+            })
+            .catch(error => {
+                console.log(error);
                 dispatch(loginFailure("Tài khoản hoặc mật khẩu không đúng!"))
                 dispatch(showError("Đăng nhập thất bại"))
-            }
-        }, 5000)
+            })
     }
 }
 export const logout = () => {
