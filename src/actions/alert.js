@@ -1,18 +1,20 @@
 import alertConstants from '../constants/alert';
 
-export const showMessage = (message) => {
+export const showMessage = (message, duration = 5) => {
     return {
         type: alertConstants.SUCCESS,
         payload: {
-            message
+            message,
+            duration
         }
     }
 }
-export const showError = (message) => {
+export const showError = (message, duration = 5) => {
     return {
         type: alertConstants.ERROR,
         payload: {
-            message
+            message,
+            duration
         }
     }
 }

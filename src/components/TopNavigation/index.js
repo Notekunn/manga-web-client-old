@@ -2,24 +2,30 @@ import { useCallback, useState } from 'react'
 import { Link } from "react-router-dom";
 import { Menu, } from 'antd';
 import { HomeOutlined, CaretDownOutlined, LogoutOutlined, BookOutlined, UserOutlined } from '@ant-design/icons';
-
+import { connect } from 'react-redux';
+import { showMessage, showError } from '../../actions/alert';
 const { SubMenu } = Menu;
 
-function TopNavigation() {
+function TopNavigation(props) {
+    const { showMessage, showError } = props;
     const [selected, setSelected] = useState('home');
     const onClick = useCallback(
         (e) => {
             setSelected(e.key);
             switch (e.key) {
                 case 'login':
+                    showMessage("Bạn đang chuyển đến trang đăng nhập")
                     break;
                 case 'logout':
+                    break;
+                case 'users':
+                    showError("Bạn không có quyền nhé ahihi")
                     break;
                 default:
                     break;
             }
         },
-        [],
+        [showError, showMessage],
     )
     return (
         <Menu onClick={onClick} selectedKeys={[selected]} mode="horizontal">
@@ -43,5 +49,13 @@ function TopNavigation() {
         </Menu>
     )
 }
+const mapStateToProps = (state) => {
 
-export default TopNavigation
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        showMessage: (message, duration) => dispatch(showMessage(message, duration)),
+        showError: (error, duration) => dispatch(showError(error, duration)),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(TopNavigation);

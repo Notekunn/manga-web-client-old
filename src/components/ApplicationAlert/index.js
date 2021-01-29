@@ -3,14 +3,14 @@ import { message as antdMessage } from 'antd';
 import { connect } from 'react-redux';
 import { clearMessage } from '../../actions/alert';
 function ApplicationAlert(props) {
-    const { message, type, clearMessage } = props;
+    const { message, type, duration, clearMessage } = props;
     useEffect(() => {
         if (!message) return;
         const showMessage = antdMessage[type];
-        showMessage(message, 5)
+        showMessage(message, duration || 5)
             .then(clearMessage)
-        return antdMessage.destroy;
-    }, [message, clearMessage, type]);
+        // return antdMessage.destroy;
+    }, [message, clearMessage, type, duration]);
     return (
         <>
         </>
@@ -19,7 +19,8 @@ function ApplicationAlert(props) {
 const mapStateToProps = (state) => {
     return {
         message: state.alert.message,
-        type: state.alert.type
+        type: state.alert.type,
+        duration: state.alert.duration,
     }
 }
 const mapDispatchToProps = (dispatch) => {
