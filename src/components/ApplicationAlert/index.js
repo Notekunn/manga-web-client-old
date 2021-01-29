@@ -8,7 +8,7 @@ function ApplicationAlert(props) {
         if (!message) return;
         const showMessage = antdMessage[type];
         showMessage(message, duration || 5)
-            .then(clearMessage)
+        //    .then(clearMessage)
         // return antdMessage.destroy;
     }, [message, clearMessage, type, duration]);
     return (
