@@ -9,6 +9,10 @@ function ProfilePage(props) {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(userAction.getMe(token))
+        return () => {
+            if (loading) dispatch(userAction.getMeFailure())
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, token])
 
     if (!token) return <Redirect to="/" />

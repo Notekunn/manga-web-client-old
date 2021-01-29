@@ -46,7 +46,9 @@ export const login = (userName, password) => {
         dispatch(loginRequest())
         userService.login(userName, password)
             .then(response => {
-                dispatch(loginSuccess(response?.login || {}));
+                const user = response?.login || {};
+                localStorage.setItem('user', JSON.stringify(user));
+                dispatch(loginSuccess(user));
                 dispatch(showMessage("Đăng nhập thành công"))
             })
             .catch(error => {
@@ -65,6 +67,7 @@ export const getMe = (token) => {
         userService.getMe(token)
             .then(response => {
                 dispatch(getMeSuccess(response?.me || {}));
+
             }).catch(error => {
                 dispatch(getMeFailure())
             })
