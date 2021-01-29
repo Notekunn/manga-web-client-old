@@ -12,7 +12,6 @@ function SideNavigation(props) {
                 history.push('/users');
                 break;
             case "test":
-                history.push('/test');
                 break;
             case "goback":
                 history.goBack();
@@ -48,7 +47,7 @@ function SideNavigation(props) {
                     </SubMenu>
                 </SubMenu>
                 <Menu.Item key="test" icon={<ContainerOutlined />}>
-                    Test Menu
+                    Show Error
                 </Menu.Item>
                 <Menu.Item key="goback" icon={<ContainerOutlined />}>
                     Go Back

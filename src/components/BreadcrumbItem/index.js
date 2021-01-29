@@ -5,11 +5,11 @@ const siteMap = {
     '/users': 'Quản lý nhân viên',
     '/artists': 'Quản lý tác giả',
 };
-export default withRouter(function (props) {
+export default withRouter(function Item(props) {
     const { location: { pathname } } = props;
     const pathSnippets = pathname.split('/').filter(i => i);
     return (
-        <>
+        <Breadcrumb style={{ margin: '16px 0' }} routes>
             <Breadcrumb.Item key="home">
                 <Link to="/">Home</Link>
             </Breadcrumb.Item>
@@ -21,6 +21,6 @@ export default withRouter(function (props) {
                     </Breadcrumb.Item>
                 );
             })}
-        </>
+        </Breadcrumb>
     )
 });
