@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Form, Input, Result, Button } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import * as userAction from '../../actions/user';
 const formItemLayout = {
     labelCol: {
         xs: {
@@ -23,6 +25,7 @@ const RegistrationForm = ({ form, setModalVisible, setConfirmLoading }) => {
     const [form1] = Form.useForm();
     const [isSuccess, setIsSuccess] = useState(false);
     const [isError, setIsError] = useState(false);
+    const dispatch = useDispatch();
     const onFinish = (values) => {
         const { email, password, userName, name } = values;
         // eslint-disable-next-line no-unused-vars

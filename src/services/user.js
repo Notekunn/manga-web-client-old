@@ -8,9 +8,29 @@ mutation($userName: String!, $password: String!) {
     }
 }
 `;
+const logoutQuery = `
+mutation ($userName: String!, $password: String!, $name: String, $email: String!) {
+    register(userInput: {userName: $userName, name: $name, password: $password, email: $email}) {
+      _id
+    }
+}
+`;
 const getMeQuery = `
 {
     me {
+        _id
+        userName
+        name
+        email
+        avatarUrl
+        permission
+        createdAt
+    }
+}
+`
+const getAllQuery = `
+{
+    users {
         _id
         userName
         name
@@ -38,4 +58,21 @@ export const getMe = (token) => {
             'Authorization': 'Bearer ' + token
         }
     })
+}
+export const getAll = (token) => {
+    const data = {
+        query: getAllQuery
+    }
+    return axiosClient.post('graphql', data, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}
+export const register = (userName, password) => {
+    const data = {
+        query: logoutQuery,
+        variables: { userName, password }
+    }
+    return axiosClient.post('graphql', data)
 }

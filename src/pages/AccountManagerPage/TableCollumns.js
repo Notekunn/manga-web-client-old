@@ -1,4 +1,4 @@
-import { Space, Tag } from 'antd';
+import { Space, Tag, Popconfirm } from 'antd';
 export const columns = [
     {
         title: 'Tên tài khoản',
@@ -55,7 +55,14 @@ export const columns = [
         key: 'action',
         render: (text, record) => (
             <Space size="middle">
-                <a key="delete" href="/#"> Xóa</a>
+                <Popconfirm
+                    title="Bạn có chắc muốn xóa?"
+                    onConfirm={() => { }}
+                    onCancel={() => { }}
+                    okText="OK"
+                    cancelText="Không">
+                    <a key="delete" href="/#"> Xóa</a>
+                </Popconfirm>
                 <a key="edit" href="/#"> Sửa</a>
             </Space>
         ),

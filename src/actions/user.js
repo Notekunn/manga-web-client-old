@@ -57,8 +57,9 @@ export const login = (userName, password) => {
     }
 }
 export const logout = () => {
-    return {
-        type: userConstants.LOGOUT
+    return dispatch => {
+        localStorage.removeItem('user')
+        dispatch({ type: userConstants.LOGOUT })
     }
 }
 export const getMe = (token) => {
@@ -67,9 +68,43 @@ export const getMe = (token) => {
         userService.getMe(token)
             .then(response => {
                 dispatch(getMeSuccess(response?.me || {}));
-
             }).catch(error => {
                 dispatch(getMeFailure())
             })
+    }
+}
+const getAllRequest = () => {
+    return {
+        type: userConstants.GETALL_REQUEST
+    }
+}
+const getAllSuccess = (users) => {
+    return {
+        type: userConstants.GETALL_SUCCESS,
+        payload: {
+            users
+        }
+    }
+}
+export const getAllFailure = () => {
+    return {
+        type: userConstants.GETALL_FAILURE
+    }
+}
+export const getAll = (token) => {
+    return dispatch => {
+        dispatch(getAllRequest())
+        userService.getAll(token)
+            .then(response => {
+                dispatch(getAllSuccess(response?.users || {}));
+            }).catch(error => {
+                dispatch(getAllFailure())
+            })
+    }
+}
+
+const registerRequest = () => {
+    return {
+        type: userConstants.REGISTER_REQUEST
     }
 }

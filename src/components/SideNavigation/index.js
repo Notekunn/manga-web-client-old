@@ -1,5 +1,5 @@
 import Menu from 'antd/lib/menu';
-import { useCallback } from 'react';
+import { useCallback, memo } from 'react';
 import { useHistory } from "react-router-dom";
 import { AppstoreOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 const { SubMenu } = Menu;
@@ -58,4 +58,4 @@ function SideNavigation(props) {
 
 }
 
-export default SideNavigation;
+export default memo(SideNavigation);
