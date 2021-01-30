@@ -41,6 +41,8 @@ export default function AccountManagerPage() {
                     setConfirmLoading(false);
                 }}
                 destroyOnClose={true}
+                afterClose={() => {
+                }}
             >
                 <AddAccount
                     form={form}

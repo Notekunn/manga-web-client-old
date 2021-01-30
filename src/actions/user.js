@@ -108,3 +108,32 @@ const registerRequest = () => {
         type: userConstants.REGISTER_REQUEST
     }
 }
+const registerSuccess = (user) => {
+    return {
+        type: userConstants.REGISTER_SUCCESS,
+        payload: {
+            user
+        }
+    }
+}
+export const registerFailure = (error) => {
+    return {
+        type: userConstants.REGISTER_FAILURE,
+        payload: {
+            error
+        }
+    }
+}
+export const registerReset = () => {
+    return {
+        type: userConstants.REGISTER_RESET
+    }
+}
+export const register = (variables) => {
+    return dispatch => {
+        dispatch(registerRequest())
+        userService.register(variables)
+            .then(response => dispatch(registerSuccess(response?.register || {})))
+            .catch(err => dispatch(registerFailure(err)))
+    }
+}

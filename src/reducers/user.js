@@ -23,6 +23,27 @@ const userReducer = (state = initialState, action) => {
             }
         case userConstants.GETALL_FAILURE:
             return {}
+        case userConstants.REGISTER_REQUEST:
+            return {
+                registerLoading: true,
+                data: state.data
+            }
+        case userConstants.REGISTER_SUCCESS:
+            return {
+                registerSuccess: true,
+                data: state.data
+            }
+        case userConstants.REGISTER_FAILURE:
+            return {
+                registerError: action.payload.error,
+                data: state.data
+            }
+        case userConstants.REGISTER_RESET:
+            return {
+                data: state.data
+            }
+        case userConstants.RESET:
+            return {}
         default:
             return state
     }

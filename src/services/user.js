@@ -69,10 +69,10 @@ export const getAll = (token) => {
         }
     })
 }
-export const register = (userName, password) => {
+export const register = ({ email, password, userName, name }) => {
     const data = {
         query: logoutQuery,
-        variables: { userName, password }
+        variables: { email, password, userName, name }
     }
     return axiosClient.post('graphql', data)
 }
