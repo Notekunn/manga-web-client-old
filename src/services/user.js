@@ -46,14 +46,14 @@ export const login = (userName, password) => {
         query: loginQuery,
         variables: { userName, password }
     }
-    return axiosClient.post('graphql', data)
+    return axiosClient.post('/', data)
 }
 
 export const getMe = (token) => {
     const data = {
         query: getMeQuery
     }
-    return axiosClient.post('graphql', data, {
+    return axiosClient.post('/', data, {
         headers: {
             'Authorization': 'Bearer ' + token
         }
@@ -63,7 +63,7 @@ export const getAll = (token) => {
     const data = {
         query: getAllQuery
     }
-    return axiosClient.post('graphql', data, {
+    return axiosClient.post('/', data, {
         headers: {
             'Authorization': 'Bearer ' + token
         }
@@ -74,5 +74,5 @@ export const register = ({ email, password, userName, name }) => {
         query: logoutQuery,
         variables: { email, password, userName, name }
     }
-    return axiosClient.post('graphql', data)
+    return axiosClient.post('/', data)
 }
