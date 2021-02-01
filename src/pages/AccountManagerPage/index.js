@@ -6,14 +6,13 @@ import { columns } from './TableCollumns';
 import sampleData from './sample-data';
 import { useSelector, useDispatch } from 'react-redux';
 import * as userAction from '../../actions/user';
-import { Redirect } from 'react-router-dom';
 export default function AccountManagerPage() {
     const [isModalVisible, setModalVisible] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [form] = Form.useForm();
     const fetching = useSelector(state => state.user.loading);
     const token = useSelector(state => state.authentication.token);
-    const users = useSelector(state => state.user.data);
+    const users = useSelector(state => state.user.users);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(userAction.getAll(token))
@@ -22,7 +21,6 @@ export default function AccountManagerPage() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    if (!token) return <Redirect to="/" />
     return (
         <div>
             <Button onClick={() => setModalVisible(true)} type="primary" style={{ marginBottom: 16 }} >{'Thêm tài khoản'}</Button>

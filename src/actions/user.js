@@ -1,5 +1,5 @@
 import userConstants from '../constants/user';
-import { showMessage } from './alert';
+import { showMessage , showError } from './alert';
 import * as userService from '../services/user';
 
 const loginRequest = () => {
@@ -135,5 +135,23 @@ export const register = (variables) => {
         userService.register(variables)
             .then(response => dispatch(registerSuccess(response?.register || {})))
             .catch(err => dispatch(registerFailure(err)))
+    }
+}
+const deleteUserSuccess = (_id) => {
+    return {
+        type: userConstants.DELETE_USER_SUCCESS,
+        payload: { 
+            _id
+        }
+    }
+}
+export const deleteUser = (token, _id) => {
+    return dispatch => {
+        userService.deleteUser(token, _id)
+            .then(res => {
+                dispatch(deleteUserSuccess(_id))
+                dispatch(showMessage("Xoá thành công "+ res.deleteUser.rowsDeleted + " người dùng!", 3))
+            })
+            .catch(err => dispatch(showError("Xoá thất bại", 3)))
     }
 }

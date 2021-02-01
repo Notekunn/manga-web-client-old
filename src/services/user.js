@@ -8,7 +8,7 @@ mutation($userName: String!, $password: String!) {
     }
 }
 `;
-const logoutQuery = `
+const registerQuery = `
 mutation ($userName: String!, $password: String!, $name: String, $email: String!) {
     register(userInput: {userName: $userName, name: $name, password: $password, email: $email}) {
       _id
@@ -41,6 +41,14 @@ const getAllQuery = `
     }
 }
 `
+const deleteUserQuery = `
+mutation($_id: ID!) {
+    deleteUser(_id: $_id) {
+        success
+        rowsDeleted
+    }
+}
+`;
 export const login = (userName, password) => {
     const data = {
         query: loginQuery,
@@ -71,8 +79,16 @@ export const getAll = (token) => {
 }
 export const register = ({ email, password, userName, name }) => {
     const data = {
-        query: logoutQuery,
+        query: registerQuery,
         variables: { email, password, userName, name }
+    }
+    return axiosClient.post('/', data)
+}
+
+export const deleteUser = (token, _id) => {
+    const data = {
+        query: deleteUserQuery,
+        variables: { _id}
     }
     return axiosClient.post('/', data)
 }

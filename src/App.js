@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Layout from 'antd/lib/layout';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import './App.css';
+import PrivateRoute from './components/Routes/PrivateRoute/';
 import TopNavigation from './components/TopNavigation/';
 import SideNavigation from './components/SideNavigation/';
 import BreadcrumbItem from './components/BreadcrumbItem';
@@ -10,6 +10,7 @@ import AuthPage from './pages/AuthPage/';
 import HomePage from './pages/HomePage/';
 import AccountManagerPage from './pages/AccountManagerPage/';
 import ProfilePage from './pages/ProfilePage/';
+import './App.css';
 const { Header, Content, Sider, Footer } = Layout;
 function App() {
 	const [collapsed, setCollapsed] = useState(false);
@@ -35,12 +36,12 @@ function App() {
 								<Route path="/auth"  >
 									<AuthPage />
 								</Route>
-								<Route path="/users" >
+								<PrivateRoute path="/users" >
 									<AccountManagerPage />
-								</Route>
-								<Route path="/me" >
+								</PrivateRoute>
+								<PrivateRoute path="/me" >
 									<ProfilePage />
-								</Route>
+								</PrivateRoute>
 							</Switch>
 						</Content>
 						<Footer style={{ textAlign: 'center' }}>Ant Design ©{new Date().getFullYear()} Created by Ant UED</Footer>

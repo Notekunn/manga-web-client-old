@@ -1,4 +1,28 @@
-import { Space, Tag, Popconfirm } from 'antd';
+import { Space, Tag, Popconfirm, Popover } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import {deleteUser} from '../../actions/user';
+function ItemDelete({ text, record = {} }) {
+    const { permission } = record;
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.authentication.token);
+    return (
+        <Space size="middle">
+            {permission === 'member' ?
+                <Popconfirm
+                    title="Bạn có chắc muốn xóa?"
+                    onConfirm={() => dispatch(deleteUser(token, record._id))}
+                    okText="OK"
+                    cancelText="Không">
+                    <a key="delete" href="/#"> Xóa</a>
+                </Popconfirm> :
+                <Popover content={<span>Không có quyền xoá</span>}>
+                    <span>Xóa</span>
+                </Popover>
+            }
+            <a key="edit" href="/#"> Sửa</a>
+        </Space>
+    );
+}
 export const columns = [
     {
         title: 'Tên tài khoản',
@@ -53,18 +77,6 @@ export const columns = [
     {
         title: 'Action',
         key: 'action',
-        render: (text, record) => (
-            <Space size="middle">
-                <Popconfirm
-                    title="Bạn có chắc muốn xóa?"
-                    onConfirm={() => { }}
-                    onCancel={() => { }}
-                    okText="OK"
-                    cancelText="Không">
-                    <a key="delete" href="/#"> Xóa</a>
-                </Popconfirm>
-                <a key="edit" href="/#"> Sửa</a>
-            </Space>
-        ),
+        render: (text, record) => <ItemDelete text={text} record={record} />,
     },
 ];
