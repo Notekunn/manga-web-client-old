@@ -9,6 +9,7 @@ import ApplicationAlert from './components/ApplicationAlert';
 import AuthPage from './pages/AuthPage/';
 import HomePage from './pages/HomePage/';
 import AccountManagerPage from './pages/AccountManagerPage/';
+import AccountManagerPage2 from './pages/AccountManagerPage/Type2';
 import ProfilePage from './pages/ProfilePage/';
 import './App.css';
 const { Header, Content, Sider, Footer } = Layout;
@@ -38,6 +39,9 @@ function App() {
 								</Route>
 								<PrivateRoute path="/users" >
 									<AccountManagerPage />
+								</PrivateRoute>
+								<PrivateRoute path="/test" >
+									<AccountManagerPage2 />
 								</PrivateRoute>
 								<PrivateRoute path="/me" >
 									<ProfilePage />

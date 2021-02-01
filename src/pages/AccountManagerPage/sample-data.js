@@ -40,16 +40,6 @@ const data = [
         "__typename": "User"
     },
     {
-        "_id": "60114b7e30c5e43b7c1e608a",
-        "userName": "hoang",
-        "name": "Đào văn hoàng",
-        "email": "clonebmn2itt@gmail.com",
-        "avatarUrl": null,
-        "permission": "member",
-        "createdAt": "2021-01-27T11:16:14.537Z",
-        "__typename": "User"
-    },
-    {
         "_id": "60114c5030c5e43b7c1e608e",
         "userName": "linhka",
         "name": "Trần Nhật Linh",
