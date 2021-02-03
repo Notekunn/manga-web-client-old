@@ -30,7 +30,6 @@ axiosClient.interceptors.response.use((response) => {
     }
     const errors = error?.response?.data?.errors;
     if (errors && errors[0]) throw new Error(errors[0].message);
-
     throw error;
 });
 

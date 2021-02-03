@@ -55,6 +55,7 @@ export const login = (userName, password) => {
         variables: { userName, password }
     }
     return axiosClient.post('/', data)
+        .then(data => data?.login)
 }
 
 export const getMe = (token) => {
@@ -88,7 +89,7 @@ export const register = ({ email, password, userName, name }) => {
 export const deleteUser = (token, _id) => {
     const data = {
         query: deleteUserQuery,
-        variables: { _id}
+        variables: { _id }
     }
     return axiosClient.post('/', data)
 }

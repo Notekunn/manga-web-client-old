@@ -1,10 +1,10 @@
 import { Route, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { selectLogged } from '../../../features/auth/authSlice';
 
-function PrivateRoute({children, ...props}) {
-   const token = useSelector(state => state.authentication.token);
-   const dispatch = useDispatch();
-   if(!token) return <Redirect to="/" />
+function PrivateRoute({ children, ...props }) {
+   const isLogged = useSelector(selectLogged);
+   if (!isLogged) return <Redirect to="/" />
    return <Route {...props}>
       {children}
    </Route>

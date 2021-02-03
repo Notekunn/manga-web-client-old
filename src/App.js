@@ -6,7 +6,8 @@ import TopNavigation from './components/TopNavigation/';
 import SideNavigation from './components/SideNavigation/';
 import BreadcrumbItem from './components/BreadcrumbItem';
 import ApplicationAlert from './components/ApplicationAlert';
-import AuthPage from './pages/AuthPage/';
+// import AuthPage from './pages/AuthPage/';
+import AuthPage from './features/auth/pages/AuthPage'
 import HomePage from './pages/HomePage/';
 import AccountManagerPage from './pages/AccountManagerPage/';
 import AccountManagerPage2 from './pages/AccountManagerPage/Type2';

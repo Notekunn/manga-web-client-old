@@ -2,27 +2,28 @@ import { useCallback, useState } from 'react'
 import { Link, useHistory } from "react-router-dom";
 import Menu from 'antd/lib/menu';
 import { HomeOutlined, CaretDownOutlined, LogoutOutlined, BookOutlined, UserOutlined } from '@ant-design/icons';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { showMessage, showError } from '../../actions/alert';
-import { logout } from '../../actions/user';
+import { selectLogged, logout } from '../../features/auth/authSlice';
 const { SubMenu } = Menu;
 
 function TopNavigation(props) {
     const history = useHistory();
+    const dispatch = useDispatch();
+    const isLogged = useSelector(selectLogged);
     // eslint-disable-next-line no-unused-vars
-    const { showMessage, showError, logout, loggedIn } = props;
     const [selected, setSelected] = useState('home');
     const onClick = useCallback(
         (e) => {
             setSelected(e.key);
             switch (e.key) {
                 case 'login':
-                    showMessage("Bạn đang chuyển đến trang đăng nhập", 1)
+                    dispatch(showMessage("Bạn đang chuyển đến trang đăng nhập", 1))
                     history.push('/auth')
                     break;
                 case 'logout':
-                    logout();
-                    showMessage("Đăng xuất thành công", 2)
+                    dispatch(logout());
+                    dispatch(showMessage("Đăng xuất thành công", 2))
                     break;
                 case 'users':
                     history.push('/users')
@@ -34,7 +35,7 @@ function TopNavigation(props) {
                     break;
             }
         },
-        [history, logout, showMessage],
+        [dispatch, history],
     )
     return (
         <Menu onClick={onClick} selectedKeys={[selected]} mode="horizontal">
@@ -44,7 +45,7 @@ function TopNavigation(props) {
             <Menu.Item key="users">
                 <Link to="/users">Users</Link>
             </Menu.Item>
-            {   !loggedIn ?
+            {   !isLogged ?
                 <Menu.Item key="login" style={{ float: 'right' }}>
                     Đăng nhập
                 </Menu.Item>
@@ -58,16 +59,5 @@ function TopNavigation(props) {
         </Menu>
     )
 }
-const mapStateToProps = (state) => {
-    return {
-        loggedIn: state.authentication.loggedIn || false
-    }
-}
-const mapDispatchToProps = (dispatch) => {
-    return {
-        showMessage: (message, duration) => dispatch(showMessage(message, duration)),
-        showError: (error, duration) => dispatch(showError(error, duration)),
-        logout: () => dispatch(logout()),
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(TopNavigation);
+
+export default TopNavigation;
