@@ -1,10 +1,11 @@
 import { Space, Tag, Popconfirm, Popover } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import {deleteUser} from '../../actions/user';
+import { deleteUser } from '../../actions/user';
+import { selectToken } from '../../features/auth/authSlice'
 function ItemDelete({ text, record = {} }) {
     const { permission } = record;
     const dispatch = useDispatch();
-    const token = useSelector(state => state.authentication.token);
+    const token = useSelector(selectToken);
     return (
         <Space size="middle">
             {permission === 'member' ?

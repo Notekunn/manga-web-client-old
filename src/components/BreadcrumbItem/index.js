@@ -4,6 +4,7 @@ import Breadcrumb from 'antd/lib/breadcrumb';
 const siteMap = {
     '/users': 'Quản lý nhân viên',
     '/artists': 'Quản lý tác giả',
+    '/me': 'Thông tin cá nhân',
 };
 export default withRouter(function Item(props) {
     const { location: { pathname } } = props;

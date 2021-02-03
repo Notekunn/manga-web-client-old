@@ -41,6 +41,7 @@ export const selectLogged = state => state.auth.loggedIn;
 export const selectLogging = state => state.auth.loggingIn;
 export const selectError = state => state.auth.error;
 export const selectSession = state => state.auth.session;
+export const selectToken = state => state.auth.session?.token;
 
 const { loginRequest, loginSuccess, loginFailure } = authSlice.actions;
 
@@ -49,6 +50,7 @@ export const login = (userName, password) => dispatch => {
     userService.login(userName, password)
         .then(session => {
             dispatch(loginSuccess(session));
+            localStorage.setItem('session', JSON.stringify(session));
         })
         .catch((error) => {
             dispatch(loginFailure(error.message));

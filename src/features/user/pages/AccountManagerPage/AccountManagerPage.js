@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Tag, Popconfirm, Form, Typography, Space, Popover } from 'antd';
-import EditableCell from './EditableCell';
-import originData from './sample-data';
+import { Table, Tag, Popconfirm, Form, Typography, Space, Popover, Skeleton } from 'antd';
+import EditableCell from '../../components/EditableCell';
+// import originData from './sample-data';
 import { useSelector, useDispatch } from 'react-redux';
-import * as userAction from '../../actions/user';
-
-
+import { fetchUsers, selectUsers, selectFetchingUsers } from '../../userSlice';
 const EditableTable = () => {
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState('');
     const isEditing = (record) => record._id === editingKey;
-    const data = useSelector(state => state.user.users || originData);
-    const fetching = useSelector(state => state.user.loading);
-    const token = useSelector(state => state.authentication.token);
+    const data = useSelector(selectUsers);
+    const fetching = useSelector(selectFetchingUsers);
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(userAction.getAll(token))
+        dispatch(fetchUsers())
         return () => {
-            if (fetching) dispatch(userAction.getAllFailure())
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [dispatch]);
     const edit = (record) => {
         form.setFieldsValue({
             userName: '',
@@ -153,6 +148,7 @@ const EditableTable = () => {
             }),
         };
     });
+    if (fetching) return <Skeleton />
     return (
         <Form form={form} component={false}>
             <Table

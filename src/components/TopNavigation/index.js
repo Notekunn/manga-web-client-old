@@ -3,27 +3,34 @@ import { Link, useHistory } from "react-router-dom";
 import Menu from 'antd/lib/menu';
 import { HomeOutlined, CaretDownOutlined, LogoutOutlined, BookOutlined, UserOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { showMessage, showError } from '../../actions/alert';
 import { selectLogged, logout } from '../../features/auth/authSlice';
+import { showMessage } from '../../features/app/alertSlice';
 const { SubMenu } = Menu;
 
 function TopNavigation(props) {
     const history = useHistory();
     const dispatch = useDispatch();
     const isLogged = useSelector(selectLogged);
-    // eslint-disable-next-line no-unused-vars
     const [selected, setSelected] = useState('home');
     const onClick = useCallback(
         (e) => {
             setSelected(e.key);
             switch (e.key) {
                 case 'login':
-                    dispatch(showMessage("Bạn đang chuyển đến trang đăng nhập", 1))
+                    dispatch(showMessage({
+                        message: "Bạn đang chuyển đến trang đăng nhập",
+                        duration: 3,
+                        key: "redirect"
+                    }))
                     history.push('/auth')
                     break;
                 case 'logout':
                     dispatch(logout());
-                    dispatch(showMessage("Đăng xuất thành công", 2))
+                    dispatch(showMessage({
+                        message: "Đăng xuất thành công",
+                        duration: 3,
+                        key: "redirect"
+                    }))
                     break;
                 case 'users':
                     history.push('/users')

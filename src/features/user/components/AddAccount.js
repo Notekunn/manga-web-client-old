@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Form, Input, Result, Button, Spin } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import * as userAction from '../../actions/user';
+import AddAccountSuccess from './AddAccountSuccess';
+import AddAccountError from './AddAccountError';
 const formItemLayout = {
     labelCol: {
         xs: {
@@ -27,37 +29,14 @@ const RegistrationForm = ({ form, setModalVisible, setConfirmLoading }) => {
     const registerLoading = useSelector(state => state.user.registerLoading || false);
     const registerError = useSelector(state => state.user.registerError);
     const registerSuccess = useSelector(state => state.user.registerSuccess);
+    const closeModal = () => () => setModalVisible(false);
     const onFinish = (values) => {
         const { email, password, userName, name } = values;
         const variables = { email, password, userName, name };
         dispatch(userAction.register(variables));
     };
-    if (registerSuccess) return (
-        <Result
-            status="success"
-            title="Tạo tài khoản thành công!"
-            subTitle="Bạn đã tạo tài khoản thành công."
-            extra={[
-                <Button type="primary" key="console" onClick={() => setModalVisible(false)}>
-                    Về trang quản lý
-               </Button>,
-                <Button key="buy" onClick={() => dispatch(userAction.registerReset())}>Đăng ký tiếp</Button>,
-            ]}
-        />
-    );
-    if (registerError) return (
-        <Result
-            status="error"
-            title="Tạo tài khoản thất bại!"
-            subTitle="Trùng tên tài khoản"
-            extra={[
-                <Button type="primary" key="console" onClick={() => setModalVisible(false)}>
-                    Về trang quản lý
-                </Button>,
-                <Button key="buy" onClick={() => dispatch(userAction.registerReset())}>Đăng ký lại</Button>,
-            ]}
-        />
-    );
+    if (registerSuccess) return <AddAccountSuccess closeForm={closeModal} resetForm={form.resetFields} />
+    if (registerError) return <AddAccountError closeForm={closeModal} resetForm={form.resetFields} message={registerError} />
     return (
         <Spin size="large" spinning={registerLoading}>
             <Form

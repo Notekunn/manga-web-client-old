@@ -5,13 +5,14 @@ import AddAccount from './AddAccount';
 import { columns } from './TableCollumns';
 import sampleData from './sample-data';
 import { useSelector, useDispatch } from 'react-redux';
-import * as userAction from '../../actions/user';
+import * as userAction from '../../../../actions/user';
+import { selectToken } from '../../../auth/authSlice';
 export default function AccountManagerPage() {
     const [isModalVisible, setModalVisible] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [form] = Form.useForm();
     const fetching = useSelector(state => state.user.loading);
-    const token = useSelector(state => state.authentication.token);
+    const token = useSelector(selectToken);
     const users = useSelector(state => state.user.users);
     const dispatch = useDispatch();
     useEffect(() => {

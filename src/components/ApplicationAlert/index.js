@@ -1,31 +1,20 @@
 import { useEffect } from 'react'
 import antdMessage from 'antd/lib/message';
-import { connect } from 'react-redux';
-import { clearMessage } from '../../actions/alert';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearMessage, selectNotices } from '../../features/app/alertSlice';
 function ApplicationAlert(props) {
-    const { message, type, duration, clearMessage } = props;
+    const dispatch = useDispatch();
+    const notices = useSelector(selectNotices);
     useEffect(() => {
-        if (!message) return;
-        const showMessage = antdMessage[type];
-        showMessage(message, duration || 5)
-            .then(clearMessage)
-        return antdMessage.destroy;
-    }, [message, clearMessage, type, duration]);
+        // antdMessage.destroy();
+        notices.forEach(notice => {
+            const func = antdMessage[notice.type];
+            func(notice.message, notice.duration, () => dispatch(clearMessage(notice.key)));
+        });
+    }, [dispatch, notices]);
     return (
         <>
         </>
     )
 }
-const mapStateToProps = (state) => {
-    return {
-        message: state.alert.message,
-        type: state.alert.type,
-        duration: state.alert.duration,
-    }
-}
-const mapDispatchToProps = (dispatch) => {
-    return {
-        clearMessage: () => dispatch(clearMessage()),
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationAlert);
+export default ApplicationAlert;
