@@ -1,0 +1,21 @@
+name: Deploy to Firebase
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to firebase
+        id: firebase-deploy
+        uses: mohammed-atif/firebase-publish-react@v1.0
+        with:
+          firebase-token: ${{ secrets.FIREBASE_TOKEN }}
+        env:
+          REACT_APP_API_URL: "http://localhost:8080/graphql"
+      - name: Verify Output
+        run: echo ${{ steps.firebase-deploy.outputs.hosting-url }}
