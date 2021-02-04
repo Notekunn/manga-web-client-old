@@ -16,6 +16,6 @@ jobs:
         with:
           firebase-token: ${{ secrets.FIREBASE_TOKEN }}
         env:
-          REACT_APP_API_URL: "http://localhost:8080/graphql"
+          REACT_APP_API_URL: "https://manga-graphql-api.herokuapp.com/graphql"
       - name: Verify Output
         run: echo ${{ steps.firebase-deploy.outputs.hosting-url }}
