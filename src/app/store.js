@@ -3,13 +3,14 @@ import authReducer from '../features/auth/authSlice';
 import userReducer from '../features/user/userSlice';
 import alertReducer from '../features/app/alertSlice';
 import { createLogger } from 'redux-logger';
+// eslint-disable-next-line no-unused-vars
 const loggerMiddleware = createLogger();
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
         user: userReducer,
-        alert: alertReducer
+        alert: alertReducer,
     },
     // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(loggerMiddleware)
 });

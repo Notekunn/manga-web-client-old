@@ -1,5 +1,5 @@
 import { Row, Col } from 'antd';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../../components/LoginForm';
 function AuthPage(props) {
     return (
         <Row style={{ paddingTop: 50 }}>

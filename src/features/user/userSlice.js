@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as userService from '../../services/user';
 import { selectToken } from '../auth/authSlice';
+import { showMessage } from '../app/alertSlice';
 export const fetchMe = createAsyncThunk('user/fetchMe', async (_, thunk) => {
     const token = selectToken(thunk.getState());
     const result = await userService.getMe(token);
@@ -19,11 +20,22 @@ export const addUser = createAsyncThunk('user/addUser', async (account, thunk) =
 })
 export const removeUser = createAsyncThunk('user/removeUser', async (_id, thunk) => {
     const token = selectToken(thunk.getState());
-    const result = await userService.deleteUser(token, _id);
-    return {
-        ...result,
-        _id
-    };
+    try {
+        const { rowsDeleted } = await userService.deleteUser(token, _id);
+        if (rowsDeleted === 0) throw new Error("Lỗi khi xoá: tài khoản không tồn tại!");
+        return {
+            rowsDeleted,
+            _id
+        };
+    } catch (error) {
+        thunk.dispatch(showMessage({
+            type: "error",
+            message: error.message,
+            duration: 3,
+            key: "removeUser"
+        }))
+        throw error;
+    }
 })
 const userSlice = createSlice({
     name: 'user',
@@ -32,10 +44,18 @@ const userSlice = createSlice({
         fetchingUsers: false,
         me: [],
         fetchingMe: false,
+        modalAddUserVisible: false,
         addingUser: false,
         addUserError: false
     },
-    reducers: {},
+    reducers: {
+        showModal: (state, action) => {
+            state.modalAddUserVisible = true
+        },
+        hideModal: (state, action) => {
+            state.modalAddUserVisible = false
+        }
+    },
     extraReducers: {
         [fetchMe.pending]: (state, action) => {
             state.me = [];
@@ -68,7 +88,7 @@ const userSlice = createSlice({
         [addUser.fulfilled]: (state, action) => {
             state.addingUser = false;
             state.users.push(action.payload);
-            state.addUserError = false;
+            state.modalAddUserVisible = false;
         },
         [addUser.rejected]: (state, action) => {
             state.addingUser = false;
@@ -86,5 +106,8 @@ export const selectUsers = state => state.user.users;
 export const selectFetchingUsers = state => state.user.fetchingUsers;
 export const selectAddingUser = state => state.user.addingUser;
 export const selectAddUserError = state => state.user.addUserError;
+export const selectModalAddUserVisible = state => state.user.modalAddUserVisible;
+
+export const { showModal, hideModal } = userSlice.actions;
 
 export default userSlice.reducer;

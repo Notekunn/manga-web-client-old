@@ -1,7 +1,5 @@
 import { Form, Input, Spin, Alert } from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
-// import AddAccountSuccess from './AddAccountSuccess';
-// import AddAccountError from './AddAccountError';
+import { useSelector } from 'react-redux';
 import { selectAddingUser, selectAddUserError } from '../userSlice';
 const formItemLayout = {
     labelCol: {
@@ -22,12 +20,9 @@ const formItemLayout = {
     },
 };
 
-const RegistrationForm = ({ form, closeModal }) => {
-    const dispatch = useDispatch();
+const RegistrationForm = ({ form }) => {
     const addingUser = useSelector(selectAddingUser);
     const addUserError = useSelector(selectAddUserError);
-    // if (!addingUser && !addUserError) return <AddAccountSuccess closeForm={closeModal} resetForm={form.resetFields} />
-    // if (addUserError) return <AddAccountError closeForm={closeModal} resetForm={form.resetFields} message={registerError} />
     return (
         <Spin size="large" spinning={addingUser}>
             {!!addUserError && <Alert

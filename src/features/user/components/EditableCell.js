@@ -1,29 +1,14 @@
-import { Input, InputNumber, Form, AutoComplete } from 'antd';
-const options = [
-    {
-        value: "moderator",
-        label: "Điều hành viên"
-    },
-    {
-        value: "translator",
-        label: "Phiên dịch viên"
-    },
-    {
-        value: "member",
-        label: "Thành viên"
-    }
-]
-const EditableCell = ({ editing, dataIndex, title, inputType, record, index, children, ...restProps }) => {
-    let inputNode;
-    if (inputType === 'number') inputNode = <InputNumber />;
-    else if (inputType === 'permission') inputNode = (<AutoComplete
-        options={options}
-        style={{
-            width: 200,
-        }}
-        placeholder="member"
-    />)
-    else inputNode = <Input />;
+import { Input, Form, } from 'antd';
+const EditableCell = ({
+    editing,
+    dataIndex,
+    title,
+    inputNode = <Input />,
+    record,
+    index,
+    children,
+    ...restProps }) => {
+
     return (
         <td {...restProps}>
             {   editing ?

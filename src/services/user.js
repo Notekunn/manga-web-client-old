@@ -12,6 +12,12 @@ const registerQuery = `
 mutation ($userName: String!, $password: String!, $name: String!, $email: String!) {
     register(userInput: {userName: $userName, name: $name, password: $password, email: $email}) {
       _id
+      userName
+      name
+      email
+      avatarUrl
+      permission
+      createdAt
     }
 }
 `;

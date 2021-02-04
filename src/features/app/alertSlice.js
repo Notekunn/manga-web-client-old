@@ -6,7 +6,7 @@ const alertSlice = createSlice({
         notices: [{
             type: "info",
             message: "Chào mừng bạn đến với Manga App",
-            duration: 15,
+            duration: 5,
             key: "introduction"
         }]
     },

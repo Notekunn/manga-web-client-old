@@ -6,10 +6,10 @@ import TopNavigation from './components/TopNavigation/';
 import SideNavigation from './components/SideNavigation/';
 import BreadcrumbItem from './components/BreadcrumbItem';
 import ApplicationAlert from './components/ApplicationAlert';
-import AuthPage from './features/auth/pages/AuthPage'
-import HomePage from './features/app/pages/HomePage';
-import AccountManagerPage from './features/user/pages/AccountManagerPage';
-import ProfilePage from './features/user/pages/ProfilePage';
+import AuthPage from './features/auth/pages/Auth'
+import HomePage from './features/app/pages/Home';
+import AccountManagerPage from './features/user/pages/AccountManager';
+import ProfilePage from './features/user/pages/Profile';
 import './App.css';
 const { Header, Content, Sider, Footer } = Layout;
 function App() {
