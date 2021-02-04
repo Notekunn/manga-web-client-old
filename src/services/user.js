@@ -9,7 +9,7 @@ mutation($userName: String!, $password: String!) {
 }
 `;
 const registerQuery = `
-mutation ($userName: String!, $password: String!, $name: String, $email: String!) {
+mutation ($userName: String!, $password: String!, $name: String!, $email: String!) {
     register(userInput: {userName: $userName, name: $name, password: $password, email: $email}) {
       _id
     }
@@ -97,5 +97,7 @@ export const deleteUser = (token, _id) => {
         query: deleteUserQuery,
         variables: { _id }
     }
-    return axiosClient.post('/', data)
+    return axiosClient
+        .post('/', data)
+        .then(data => data?.deleteUser)
 }

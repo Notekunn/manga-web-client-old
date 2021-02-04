@@ -24,7 +24,6 @@ axiosClient.interceptors.response.use((response) => {
     }
     return response;
 }, (error) => {
-    console.log(error.response);
     if (!error?.response) {
         throw new Error("Lỗi mạng");
     }
@@ -32,5 +31,17 @@ axiosClient.interceptors.response.use((response) => {
     if (errors && errors[0]) throw new Error(errors[0].message);
     throw error;
 });
-
+export const fetchWithoutToken = (query, variables = {}) => {
+    const data = { query, variables };
+    return axiosClient.post('/', data);
+}
+export const fetchWithToken = (token, query, variables = {}) => {
+    const data = { query, variables };
+    return axiosClient
+        .post('/', data, {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+}
 export default axiosClient;

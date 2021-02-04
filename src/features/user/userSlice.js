@@ -2,15 +2,19 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as userService from '../../services/user';
 import { selectToken } from '../auth/authSlice';
 export const fetchMe = createAsyncThunk('user/fetchMe', async (_, thunk) => {
-    const state = thunk.getState();
-    const token = selectToken(state);
+    const token = selectToken(thunk.getState());
     const result = await userService.getMe(token);
     return result;
 })
 export const fetchUsers = createAsyncThunk('user/fetchUsers', async (_, thunk) => {
-    const state = thunk.getState();
-    const token = selectToken(state);
+    const token = selectToken(thunk.getState());
     const result = await userService.getAll(token);
+    return result;
+})
+export const addUser = createAsyncThunk('user/addUser', async (account, thunk) => {
+    const { email, password, userName, name } = account;
+    if (!email || !password || !userName || !name) throw new Error("Vui lòng nhập đủ thông tin");
+    const result = await userService.register(account);
     return result;
 })
 const userSlice = createSlice({
@@ -20,11 +24,10 @@ const userSlice = createSlice({
         fetchingUsers: false,
         me: [],
         fetchingMe: false,
-        // fetchingMeError: false
+        addingUser: false,
+        addUserError: false
     },
-    reducers: {
-
-    },
+    reducers: {},
     extraReducers: {
         [fetchMe.pending]: (state, action) => {
             state.me = [];
@@ -50,6 +53,19 @@ const userSlice = createSlice({
             state.users = [];
             state.fetchingUsers = false;
         },
+        [addUser.pending]: (state, action) => {
+            state.addingUser = true;
+            state.addUserError = false;
+        },
+        [addUser.fulfilled]: (state, action) => {
+            state.addingUser = false;
+            state.users.push(action.payload);
+            state.addUserError = false;
+        },
+        [addUser.rejected]: (state, action) => {
+            state.addingUser = false;
+            state.addUserError = action.error?.message;
+        }
     }
 })
 
@@ -57,5 +73,7 @@ export const selectMe = state => state.user.me;
 export const selectFetchingMe = state => state.user.fetchingMe;
 export const selectUsers = state => state.user.users;
 export const selectFetchingUsers = state => state.user.fetchingUsers;
+export const selectAddingUser = state => state.user.addingUser;
+export const selectAddUserError = state => state.user.addUserError;
 
 export default userSlice.reducer;

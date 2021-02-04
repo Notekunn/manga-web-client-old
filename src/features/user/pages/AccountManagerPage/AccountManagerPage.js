@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Tag, Popconfirm, Form, Typography, Space, Popover, Skeleton } from 'antd';
+import { Table, Tag, Popconfirm, Form, Typography, Space, Popover, Skeleton, Modal, Button } from 'antd';
 import EditableCell from '../../components/EditableCell';
-// import originData from './sample-data';
+import AddAccount from '../../components/AddAccount';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUsers, selectUsers, selectFetchingUsers } from '../../userSlice';
+import { fetchUsers, addUser, selectUsers, selectFetchingUsers, selectAddingUser } from '../../userSlice';
 const EditableTable = () => {
     const [form] = Form.useForm();
+    const [addForm] = Form.useForm();
     const [editingKey, setEditingKey] = useState('');
     const isEditing = (record) => record._id === editingKey;
+    const [modalVisible, setModalVisible] = useState(false);
+    const addingUser = useSelector(selectAddingUser);
     const data = useSelector(selectUsers);
     const fetching = useSelector(selectFetchingUsers);
     const dispatch = useDispatch();
@@ -35,6 +38,7 @@ const EditableTable = () => {
         try {
             const row = await form.validateFields();
             console.log(row, key);
+            setEditingKey("");
         } catch (errInfo) {
             console.log('Validate Failed:', errInfo);
         }
@@ -46,6 +50,7 @@ const EditableTable = () => {
             dataIndex: 'userName',
             key: 'userName',
             editable: true,
+            defaultSortOrder: 'ascend',
             sorter: {
                 compare: (a, b) => String(a.userName).localeCompare(String(b.userName)),
                 multiple: 3
@@ -148,24 +153,49 @@ const EditableTable = () => {
             }),
         };
     });
-    if (fetching) return <Skeleton />
+    const modalSubmit = () => {
+        addForm.validateFields()
+            .then((values) => {
+                const { /* _userName: */ userName, name, email, /* _password: */ password } = addForm.getFieldsValue();
+                dispatch(addUser({ userName, name, email, password }));
+                addForm.resetFields();
+            })
+            .catch((info) => {
+                console.log('Validate Failed:', info);
+            });
+    }
     return (
-        <Form form={form} component={false}>
-            <Table
-                components={{
-                    body: {
-                        cell: EditableCell
-                    },
-                }}
-                bordered
-                dataSource={data}
-                columns={mergedColumns}
-                rowClassName="editable-row"
-                pagination={{
-                    onChange: cancel,
-                }}
-            />
-        </Form>
+        <div>
+            <Button onClick={() => setModalVisible(true)} type="primary" style={{ marginBottom: 16 }} >{'Thêm tài khoản'}</Button>
+            {fetching ? <Skeleton /> :
+                <Form form={form} component={false}>
+                    <Table
+                        components={{
+                            body: {
+                                cell: EditableCell
+                            },
+                        }}
+                        bordered
+                        dataSource={data}
+                        columns={mergedColumns}
+                        rowClassName="editable-row"
+                        pagination={{
+                            onChange: cancel,
+                        }}
+                        rowKey={(record) => record._id}
+                    />
+                </Form>
+            }
+            <Modal title="Thêm tài khoản"
+                visible={modalVisible}
+                confirmLoading={addingUser}
+                onOk={modalSubmit}
+                onCancel={() => setModalVisible(false)}
+                destroyOnClose={true}
+            >
+                <AddAccount form={addForm} />
+            </Modal>
+        </div>
     );
 };
 export default EditableTable;

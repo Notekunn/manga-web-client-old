@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import { Form, Input, Result, Button, Spin } from 'antd';
+import { Form, Input, Spin, Alert } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import * as userAction from '../../actions/user';
-import AddAccountSuccess from './AddAccountSuccess';
-import AddAccountError from './AddAccountError';
+// import AddAccountSuccess from './AddAccountSuccess';
+// import AddAccountError from './AddAccountError';
+import { selectAddingUser, selectAddUserError } from '../userSlice';
 const formItemLayout = {
     labelCol: {
         xs: {
@@ -23,28 +22,24 @@ const formItemLayout = {
     },
 };
 
-const RegistrationForm = ({ form, setModalVisible, setConfirmLoading }) => {
-    const [form1] = Form.useForm();
+const RegistrationForm = ({ form, closeModal }) => {
     const dispatch = useDispatch();
-    const registerLoading = useSelector(state => state.user.registerLoading || false);
-    const registerError = useSelector(state => state.user.registerError);
-    const registerSuccess = useSelector(state => state.user.registerSuccess);
-    const closeModal = () => () => setModalVisible(false);
-    const onFinish = (values) => {
-        const { email, password, userName, name } = values;
-        const variables = { email, password, userName, name };
-        dispatch(userAction.register(variables));
-    };
-    if (registerSuccess) return <AddAccountSuccess closeForm={closeModal} resetForm={form.resetFields} />
-    if (registerError) return <AddAccountError closeForm={closeModal} resetForm={form.resetFields} message={registerError} />
+    const addingUser = useSelector(selectAddingUser);
+    const addUserError = useSelector(selectAddUserError);
+    // if (!addingUser && !addUserError) return <AddAccountSuccess closeForm={closeModal} resetForm={form.resetFields} />
+    // if (addUserError) return <AddAccountError closeForm={closeModal} resetForm={form.resetFields} message={registerError} />
     return (
-        <Spin size="large" spinning={registerLoading}>
+        <Spin size="large" spinning={addingUser}>
+            {!!addUserError && <Alert
+                message={addUserError}
+                type="error"
+                showIcon
+                style={{ marginBottom: 20 }}
+            />}
             <Form
                 {...formItemLayout}
-                form={form || form1}
+                form={form}
                 name="register"
-                onFinish={onFinish}
-                onFinishFailed={() => setConfirmLoading(false)}
                 scrollToFirstError
             >
                 <Form.Item
@@ -80,7 +75,6 @@ const RegistrationForm = ({ form, setModalVisible, setConfirmLoading }) => {
                 >
                     <Input />
                 </Form.Item>
-
                 <Form.Item
                     name="password"
                     label="Mật khẩu"
@@ -93,26 +87,23 @@ const RegistrationForm = ({ form, setModalVisible, setConfirmLoading }) => {
                 >
                     <Input.Password />
                 </Form.Item>
-
                 <Form.Item
                     name="confirm"
                     label="Nhập lại mật khẩu"
                     dependencies={['password']}
                     hasFeedback
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Vui lòng nhập lại mật khẩu!',
+                    rules={[{
+                        required: true,
+                        message: 'Vui lòng nhập lại mật khẩu!',
+                    },
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                            if (!value || getFieldValue('password') === value) {
+                                return Promise.resolve();
+                            }
+                            return Promise.reject('Các mật khẩu đã nhập không khớp. Hãy thử lại!');
                         },
-                        ({ getFieldValue }) => ({
-                            validator(_, value) {
-                                if (!value || getFieldValue('password') === value) {
-                                    return Promise.resolve();
-                                }
-                                return Promise.reject('Các mật khẩu đã nhập không khớp. Hãy thử lại!');
-                            },
-                        }),
-                    ]}
+                    })]}
                 >
                     <Input.Password />
                 </Form.Item>
