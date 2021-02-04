@@ -98,6 +98,10 @@ export const deleteUser = (token, _id) => {
         variables: { _id }
     }
     return axiosClient
-        .post('/', data)
+        .post('/', data, {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
         .then(data => data?.deleteUser)
 }

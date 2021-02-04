@@ -11,7 +11,7 @@ const store = configureStore({
         user: userReducer,
         alert: alertReducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(loggerMiddleware)
+    // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(loggerMiddleware)
 });
 
 export default store;

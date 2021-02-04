@@ -3,12 +3,11 @@ import { Table, Tag, Popconfirm, Form, Typography, Space, Popover, Skeleton, Mod
 import EditableCell from '../../components/EditableCell';
 import AddAccount from '../../components/AddAccount';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUsers, addUser, selectUsers, selectFetchingUsers, selectAddingUser } from '../../userSlice';
+import { fetchUsers, addUser, removeUser, selectUsers, selectFetchingUsers, selectAddingUser } from '../../userSlice';
 const EditableTable = () => {
     const [form] = Form.useForm();
     const [addForm] = Form.useForm();
     const [editingKey, setEditingKey] = useState('');
-    const isEditing = (record) => record._id === editingKey;
     const [modalVisible, setModalVisible] = useState(false);
     const addingUser = useSelector(selectAddingUser);
     const data = useSelector(selectUsers);
@@ -29,6 +28,7 @@ const EditableTable = () => {
         });
         setEditingKey(record._id);
     };
+    const isEditing = (record) => record._id === editingKey;
 
     const cancel = () => {
         setEditingKey('');
@@ -43,6 +43,9 @@ const EditableTable = () => {
             console.log('Validate Failed:', errInfo);
         }
     };
+    const deleteUser = async (_id) => {
+        dispatch(removeUser(_id));
+    }
 
     const columns = [
         {
@@ -107,7 +110,7 @@ const EditableTable = () => {
                 const editable = isEditing(record);
                 return editable ? (
                     <span>
-                        <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
+                        <Typography.Link onClick={() => save(record._id)} style={{ marginRight: 8 }}>
                             {"Save"}
                         </Typography.Link>
                         <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
@@ -124,7 +127,7 @@ const EditableTable = () => {
                             {record.permission === 'member' ?
                                 <Popconfirm
                                     title="Bạn có chắc muốn xóa?"
-                                    onConfirm={() => { }}
+                                    onConfirm={() => deleteUser(record._id)}
                                     okText="OK"
                                     cancelText="Không">
                                     <a key="delete" href="/#"> Xóa</a>

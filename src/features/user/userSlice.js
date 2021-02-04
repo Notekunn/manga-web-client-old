@@ -17,6 +17,14 @@ export const addUser = createAsyncThunk('user/addUser', async (account, thunk) =
     const result = await userService.register(account);
     return result;
 })
+export const removeUser = createAsyncThunk('user/removeUser', async (_id, thunk) => {
+    const token = selectToken(thunk.getState());
+    const result = await userService.deleteUser(token, _id);
+    return {
+        ...result,
+        _id
+    };
+})
 const userSlice = createSlice({
     name: 'user',
     initialState: {
@@ -65,6 +73,9 @@ const userSlice = createSlice({
         [addUser.rejected]: (state, action) => {
             state.addingUser = false;
             state.addUserError = action.error?.message;
+        },
+        [removeUser.fulfilled]: (state, action) => {
+            state.users = state.users.filter(e => e && e._id !== action.payload._id);
         }
     }
 })
