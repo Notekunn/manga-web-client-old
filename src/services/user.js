@@ -1,4 +1,15 @@
 import axiosClient from './axiosClient';
+const userFragment = `
+fragment userField on User {
+    _id
+    userName
+    name
+    email
+    avatarUrl
+    permission
+    createdAt
+}
+`;
 const loginQuery = `
 mutation($userName: String!, $password: String!) {
     login(userInput: { userName: $userName, password: $password }) {
@@ -55,6 +66,14 @@ mutation($_id: ID!) {
     }
 }
 `;
+const updateUserQuery = `
+mutation($_id: ID!, $userInput: UserChangesInput!) {
+    updateUser(_id: $_id, userInput: $userInput) {
+        ...userField
+    }
+}
+${userFragment}
+`;
 export const login = (userName, password) => {
     const data = {
         query: loginQuery,
@@ -110,4 +129,18 @@ export const deleteUser = (token, _id) => {
             }
         })
         .then(data => data?.deleteUser)
+}
+
+export const updateUser = (token, _id, { email, password, userName, name, permission }) => {
+    const data = {
+        query: updateUserQuery,
+        variables: { _id, userInput: { email, password, userName, name, permission } }
+    }
+    return axiosClient
+        .post('/', data, {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(data => data?.updateUser)
 }

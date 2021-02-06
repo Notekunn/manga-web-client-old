@@ -4,7 +4,7 @@ import EditableCell from '../../components/EditableCell';
 import AddAccount from '../../components/AddAccount';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-    fetchUsers, addUser, removeUser,
+    fetchUsers, addUser, removeUser, updateUser,
     selectUsers, selectFetchingUsers,
     selectAddingUser, selectModalAddUserVisible,
     showModal, hideModal
@@ -44,7 +44,9 @@ const EditableTable = () => {
     const update = async (_id) => {
         try {
             const row = await form.validateFields();
+            console.log(form.getFieldValue());
             console.log(row, _id);
+            dispatch(updateUser({ _id, ...row }));
             setEditingKey("");
         } catch (errInfo) {
             console.log('Validate Failed:', errInfo);
