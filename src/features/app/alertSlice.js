@@ -1,35 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const alertSlice = createSlice({
-  name: "alert",
+  name: 'alert',
   initialState: {
-    notices: [{
-      type: "info",
-      message: "Chào mừng bạn đến với Manga App",
-      duration: 5,
-      key: "introduction"
-    }]
+    notices: [
+      {
+        type: 'info',
+        message: 'Chào mừng bạn đến với Manga App',
+        duration: 5,
+        key: 'introduction',
+      },
+    ],
   },
   reducers: {
     showMessage: (state, action) => {
-      const { type = "info", message, duration, key = "introduction" } = action.payload;
+      const { type = 'info', message, duration, key = 'introduction' } = action.payload;
       const notices = state.notices
-        .filter(e => e && e.key !== key)
+        .filter((e) => e && e.key !== key)
         .concat({ key, message, duration, type });
       return {
-        notices
+        notices,
       };
     },
     clearMessage: (state, action) => {
-      const notices = state.notices
-        .filter(e => e && e.key !== action.payload);
+      const notices = state.notices.filter((e) => e && e.key !== action.payload);
       return {
-        notices
+        notices,
       };
-    }
-  }
+    },
+  },
 });
-export const selectNotices = state => state.alert.notices;
+export const selectNotices = (state) => state.alert.notices;
 
 export const { showMessage, clearMessage } = alertSlice.actions;
 

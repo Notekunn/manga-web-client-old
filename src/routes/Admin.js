@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import HomePage from '../features/app/pages/Home/';
 import AuthPage from '../features/auth/pages/Auth/';
@@ -16,28 +16,28 @@ function AdminRoute() {
           <HomePage />
         </BasicLayout>
       </Route>
-      <Route path="/auth"  >
+      <Route path="/auth">
         <BasicLayout>
           <AuthPage />
         </BasicLayout>
       </Route>
-      <Route path="/users" >
+      <Route path="/users">
         <SecurityLayout needPermission="moderator">
           <AccountManagerPage />
         </SecurityLayout>
       </Route>
-      <Route path="/me" >
-        <SecurityLayout >
+      <Route path="/me">
+        <SecurityLayout>
           <ProfilePage />
         </SecurityLayout>
       </Route>
       <Route path="*">
-        <BlankLayout >
+        <BlankLayout>
           <Page404 />
         </BlankLayout>
       </Route>
     </Switch>
-  )
+  );
 }
 
 export default AdminRoute;

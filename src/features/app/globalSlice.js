@@ -1,19 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const globalSlice = createSlice({
-  name: "global",
+  name: 'global',
   initialState: {
-    collapsed: false
+    collapsed: false,
   },
   reducers: {
     collapseMenu: (state, action) => {
       state.collapsed = !state.collapsed;
-    }
-  }
-})
+    },
+  },
+});
 
 export const { collapseMenu } = globalSlice.actions;
 
 export default globalSlice.reducer;
 
-export const selectCollapsed = state => state.global.collapsed;
+export const selectCollapsed = (state) => state.global.collapsed;
