@@ -73,6 +73,8 @@ const formItemLayout = {
   },
 };
 const CreateForm = (props) => {
+  const addingUser = useSelector(selectAddingUser);
+  const addUserError = useSelector(selectAddUserError);
   const { modalVisible, onCancel, onSubmit } = props;
   return (
     <Spin size="large" spinning={addingUser}>
