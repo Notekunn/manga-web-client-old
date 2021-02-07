@@ -27,16 +27,6 @@ export const ActionEditAndDelete = ({ record, onTriggerEdit, onDelete, disableEd
     </Space>
   );
 };
-export const ActionSaveAndCancel = ({ record, onUpdate, onCancel }) => {
-  return (
-    <Space size="middle">
-      <Typography.Link onClick={() => onUpdate(record._id)}>{'Update'}</Typography.Link>
-      <Popconfirm title="Sure to cancel?" onConfirm={onCancel}>
-        <Typography.Link onClick={onCancel}>{'Cancel'}</Typography.Link>
-      </Popconfirm>
-    </Space>
-  );
-};
 
 export const header = [
   {
@@ -83,28 +73,6 @@ export const header = [
     key: 'createdAt',
   },
 ];
-// export const generateColumns = (isEditing, onUpdate, onCancel, onDelete, onTriggerEdit) => {
-//   return [
-//     ...header,
-//     {
-//       title: 'Action',
-//       dataIndex: 'action',
-//       render: (_, record) => {
-//         const editable = isEditing(record._id);
-//         if (editable)
-//           return <ActionSaveAndCancel record={record} onUpdate={onUpdate} onCancel={onCancel} />;
-//         return (
-//           <ActionEditAndDelete
-//             record={record}
-//             disableEdit={!isEditing('')}
-//             onDelete={onDelete}
-//             onTriggerEdit={onTriggerEdit}
-//           />
-//         );
-//       },
-//     },
-//   ];
-// };
 export const generateColumns = (onTriggerEdit, onDelete, disableEdit) => [
   ...header,
   {

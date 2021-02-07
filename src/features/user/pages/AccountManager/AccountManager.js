@@ -33,19 +33,19 @@ const EditableTable = () => {
     return () => {};
   }, [dispatch]);
 
-  const update = (values) => {
+  const updateEvent = (values) => {
     dispatch(updateUser({ ...editingItem, ...values }));
     setEditModalVisible(false);
   };
-  const deleteUser = (_id) => dispatch(removeUser(_id));
+  const deleteEvent = (_id) => dispatch(removeUser(_id));
 
-  const edit = (item) => {
+  const triggerEdit = (item) => {
     if (!item) return;
     setEditingItem({ ...item });
     setEditModalVisible(true);
   };
 
-  const columns = generateColumns(edit, deleteUser, editModalVisible);
+  const columns = generateColumns(triggerEdit, deleteEvent, editModalVisible);
   const modalSubmit = () => {
     form
       .validateFields()
@@ -97,7 +97,7 @@ const EditableTable = () => {
         <AddAccount form={form} />
       </Modal>
       <UpdateAccount
-        onSubmit={update}
+        onSubmit={updateEvent}
         onCancel={() => setEditModalVisible(false)}
         updateModalVisible={editModalVisible}
         values={editingItem}
