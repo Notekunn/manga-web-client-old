@@ -85,7 +85,14 @@ const UpdateForm = (props) => {
     permission: values.permission,
   });
   useEffect(() => {
-    form.setFieldsValue(values);
+    setFormVals({
+      name: values.name,
+      userName: values.userName,
+      email: values.email,
+      avatarUrl: values.avatarUrl,
+      permission: values.permission,
+    });
+    form.setFieldsValue({ ...values, password: '', confirm: '' });
     // setCurrentStep(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
