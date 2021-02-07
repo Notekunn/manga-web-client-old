@@ -1,18 +1,11 @@
 import { useState } from 'react'
-import Layout from 'antd/lib/layout';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import TopNavigation from './components/TopNavigation/';
-import SideNavigation from './components/SideNavigation/';
-import BreadcrumbItem from './components/BreadcrumbItem';
-import ApplicationAlert from './components/ApplicationAlert';
 import AdminRoute from './routes/Admin';
 import './App.css';
-const { Header, Content, Sider, Footer } = Layout;
 function App() {
-  const [collapsed, setCollapsed] = useState(false);
   return (
     <Router>
-      <ApplicationAlert />
+      {/* <ApplicationAlert />
       <Layout style={{ minHeight: '100vh' }}>
         <Sider width={265} collapsible trigger={null} className="site-layout-background" collapsed={collapsed} onCollapse={setCollapsed}>
           <div className={collapsed ? 'mini-logo' : 'logo'} onClick={() => setCollapsed(!collapsed)} />
@@ -24,17 +17,24 @@ function App() {
           </Header>
           <Layout style={{ padding: '0 24px 24px' }}>
             <BreadcrumbItem />
-            <Content className="site-layout-background" style={{ padding: 24, margin: 0, overflow: "auto" }}								>
-              <Switch>
-                <Route path="/" >
-                  <AdminRoute />
-                </Route>
-              </Switch>
-            </Content>
-            <Footer style={{ textAlign: 'center' }}>Ant Design ©{new Date().getFullYear()} Created by Ant UED</Footer>
+            <Content className="site-layout-background" style={{ padding: 24, margin: 0, overflow: "auto" }}								> */}
+      <Switch>
+        <Route path="/" >
+          <AdminRoute />
+        </Route>
+      </Switch>
+      {/* </Content>
+            <Footer style={{ textAlign: 'center' }}>
+              <div className="footer-links">
+                <a href="https://github.com/">Github</a>
+              </div>
+              <div className="copyright">
+                {"Ant Design ©" + new Date().getFullYear() + " Created by Ant UED"}
+              </div>
+            </Footer>
           </Layout>
         </Layout>
-      </Layout>
+      </Layout> */}
     </Router>
   );
 }
