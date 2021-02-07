@@ -1,5 +1,4 @@
 import Layout from 'antd/lib/layout';
-import PropTypes from 'prop-types';
 import SideNavigation from '../components/SideNavigation/';
 import TopNavigation from '../components/TopNavigation/';
 import BreadcrumbItem from '../components/BreadcrumbItem/';

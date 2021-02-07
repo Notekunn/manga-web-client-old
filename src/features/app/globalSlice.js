@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const globalSlice = createSlice({
   name: "global",
   initialState: {
-    collapsed: true
+    collapsed: false
   },
   reducers: {
     collapseMenu: (state, action) => {

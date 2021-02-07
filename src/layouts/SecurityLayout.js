@@ -1,13 +1,18 @@
+import { useEffect } from 'react';
 import Layout from 'antd/lib/layout';
-import Redirect from 'react-router-dom/Redirect';
+import LoadingGlobal from '../components/LoadingGlobal/';
+import { Redirect } from 'react-router-dom';
 import SideNavigation from '../components/SideNavigation/';
 import TopNavigation from '../components/TopNavigation/';
 import BreadcrumbItem from '../components/BreadcrumbItem/';
+import Page403 from '../features/app/pages/Exception/403/';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCollapsed, collapseMenu } from '../features/app/globalSlice';
 import { selectLogged } from '../features/auth/authSlice';
-import './layout.css'
+import { selectFetchingMe, selectMe, fetchMe } from '../features/user/userSlice';
+import { isAuthority } from '../utils/';
 import logo from '../assets/logo.svg';
+import './layout.css';
 const { Header, Content, Sider, Footer } = Layout;
 
 
@@ -23,12 +28,25 @@ export const DefaultFooter = () => {
     </Footer>
   )
 }
-const SecurityLayout = ({ children }) => {
+const SecurityLayout = ({ children, needPermission = "member" }) => {
   const dispatch = useDispatch();
   const collapsed = useSelector(selectCollapsed);
   const onCollapse = () => dispatch(collapseMenu());
   const isLogged = useSelector(selectLogged);
-  if (!isLogged) return <Redirect to="/" />
+  const isFetchingMe = useSelector(selectFetchingMe);
+  const user = useSelector(selectMe);
+  const needValidate = needPermission !== "member";
+  useEffect(() => {
+    if (needValidate) dispatch(fetchMe());
+    return () => {
+
+    }
+  }, [dispatch, needValidate]);
+  if (!isLogged) return <Redirect to="/auth" />
+  if (needValidate) {
+    if (isFetchingMe) return <LoadingGlobal />
+    if (!user || !user.permission || !isAuthority(user, needPermission)) return <Page403 />
+  }
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider width={265} collapsible className="site-layout-background" collapsed={collapsed} onCollapse={onCollapse}>
@@ -50,7 +68,7 @@ const SecurityLayout = ({ children }) => {
           <DefaultFooter />
         </Layout>
       </Layout>
-    </Layout>
+    </Layout >
   );
 }
 
