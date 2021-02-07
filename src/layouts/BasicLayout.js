@@ -4,10 +4,9 @@ import TopNavigation from '../components/TopNavigation/';
 import BreadcrumbItem from '../components/BreadcrumbItem/';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCollapsed, collapseMenu } from '../features/app/globalSlice';
-import './layout.css'
+import './layout.css';
 import logo from '../assets/logo.svg';
 const { Header, Content, Sider, Footer } = Layout;
-
 
 export const DefaultFooter = () => {
   return (
@@ -16,19 +15,25 @@ export const DefaultFooter = () => {
         <a href="https://github.com/">Github</a>
       </div>
       <div className="copyright">
-        {"Ant Design ©" + new Date().getFullYear() + " Created by Ant UED"}
+        {'Ant Design ©' + new Date().getFullYear() + ' Created by Ant UED'}
       </div>
     </Footer>
-  )
-}
+  );
+};
 const BasicLayout = ({ children }) => {
   const dispatch = useDispatch();
   const collapsed = useSelector(selectCollapsed);
   const onCollapse = () => dispatch(collapseMenu());
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider width={265} collapsible className="site-layout-background" collapsed={collapsed} onCollapse={onCollapse}>
-        <div className="sider-logo" >
+      <Sider
+        width={265}
+        collapsible
+        className="site-layout-background"
+        collapsed={collapsed}
+        onCollapse={onCollapse}
+      >
+        <div className="sider-logo">
           <img src={logo} alt="Logo" id="logo" />
           {!collapsed && <h1>Manga App</h1>}
         </div>
@@ -40,7 +45,10 @@ const BasicLayout = ({ children }) => {
         </Header>
         <Layout style={{ padding: '0 24px 24px' }}>
           <BreadcrumbItem />
-          <Content className="site-layout-background" style={{ padding: 24, margin: 0, overflow: "auto" }}								>
+          <Content
+            className="site-layout-background"
+            style={{ padding: 24, margin: 0, overflow: 'auto' }}
+          >
             {children}
           </Content>
           <DefaultFooter />
@@ -48,7 +56,6 @@ const BasicLayout = ({ children }) => {
       </Layout>
     </Layout>
   );
-}
-
+};
 
 export default BasicLayout;

@@ -1,13 +1,7 @@
 import React from 'react';
 
 function ArtistManager(props) {
-    return (
-        <div>
-            ArtistManager
-        </div>
-    )
+  return <div>ArtistManager</div>;
 }
 
-
-export default ArtistManager
-
+export default ArtistManager;

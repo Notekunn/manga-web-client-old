@@ -81,7 +81,7 @@ const CreateForm = (props) => {
       {!!addUserError && (
         <Alert message={addUserError} type="error" showIcon style={{ marginBottom: 20 }} />
       )}
-      <Form {...formItemLayout} form={form} name="register" scrollToFirstError>
+      <Form {...formItemLayout} form={null} name="register" scrollToFirstError>
         <Form.Item
           name="email"
           label="E-mail"
