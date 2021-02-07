@@ -1,5 +1,7 @@
 import React from 'react';
 import { Form, Input, Spin, Alert, Modal } from 'antd';
+import { useSelector } from 'react-redux';
+import { selectAddingUser, selectAddUserError } from '../userSlice';
 const rules = {
   email: [
     {
@@ -51,6 +53,24 @@ const rules = {
       };
     },
   ],
+};
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
 };
 const CreateForm = (props) => {
   const { modalVisible, onCancel, onSubmit } = props;
