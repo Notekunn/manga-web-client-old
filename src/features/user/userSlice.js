@@ -47,7 +47,7 @@ export const updateUser = createAsyncThunk('user/updateUser', async (fields = {}
     const result = await userService.updateUser(token, _id, {
       name,
       email,
-      // password,
+      password,
       userName,
       permission,
     });
