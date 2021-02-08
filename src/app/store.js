@@ -3,6 +3,7 @@ import authReducer from '../features/auth/authSlice';
 import userReducer from '../features/user/userSlice';
 import alertReducer from '../features/app/alertSlice';
 import globalReducer from '../features/app/globalSlice';
+import artistReducer from '../features/artist/artistSlice';
 import { createLogger } from 'redux-logger';
 // eslint-disable-next-line no-unused-vars
 const loggerMiddleware = createLogger();
@@ -11,6 +12,7 @@ const rootReducer = {
   user: userReducer,
   alert: alertReducer,
   global: globalReducer,
+  artist: artistReducer,
 };
 const store = configureStore({
   reducer: rootReducer,

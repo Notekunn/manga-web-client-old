@@ -38,7 +38,7 @@ export const fetchWithoutToken = (query, variables = {}) => {
   const data = { query, variables };
   return axiosClient.post('/', data);
 };
-export const fetchWithToken = (token, query, variables = {}) => {
+export const fetchWithToken = (token) => (query, variables = {}) => {
   const data = { query, variables };
   return axiosClient.post('/', data, {
     headers: {

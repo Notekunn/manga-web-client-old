@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from '../features/app/pages/Home/';
 import AuthPage from '../features/auth/pages/Auth/';
 import AccountManagerPage from '../features/user/pages/AccountManager/';
+import ArtistManagerPage from '../features/artist/pages/ArtistMangager/';
 import ProfilePage from '../features/user/pages/Profile/';
 import Page404 from '../features/app/pages/Exception/404/';
 import BasicLayout from '../layouts/BasicLayout';
@@ -29,6 +30,11 @@ function AdminRoute() {
       <Route path="/me">
         <SecurityLayout>
           <ProfilePage />
+        </SecurityLayout>
+      </Route>
+      <Route path="/artists">
+        <SecurityLayout needPermission="moderator">
+          <ArtistManagerPage />
         </SecurityLayout>
       </Route>
       <Route path="*">
