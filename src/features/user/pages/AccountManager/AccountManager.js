@@ -18,6 +18,7 @@ import { generateColumns } from './TableCollumns';
 import './AccountManager.css';
 import UpdateAccount from '../../components/UpdateAccount';
 import AddIcon from '@ant-design/icons/FolderAddOutlined';
+import TableToolbar from '../../../../components/TableToolbar';
 
 const EditableTable = () => {
   const [form] = Form.useForm();
@@ -59,19 +60,7 @@ const EditableTable = () => {
   };
   return (
     <div>
-      <div style={{ lineHeight: 1, overflowX: 'auto', overflowY: 'hidden' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 0' }}>
-          <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-            <h3 style={{ marginBottom: 0 }}>Quản lý tài khoản</h3>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <Button onClick={() => dispatch(showModal())} style={{ float: 'right' }} type="primary">
-              <AddIcon />
-              {'Thêm'}
-            </Button>
-          </div>
-        </div>
-      </div>
+      <TableToolbar title="Quản lý tài khoản" triggerAdd={() => dispatch(showModal())} />
       {fetching ? (
         <Skeleton />
       ) : (

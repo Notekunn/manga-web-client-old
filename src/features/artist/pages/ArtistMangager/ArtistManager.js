@@ -4,7 +4,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import Skeleton from 'antd/lib/skeleton';
 import Table from 'antd/lib/table';
 import Button from 'antd/lib/button';
+import Space from 'antd/lib/space';
+import Popconfirm from 'antd/lib/popconfirm';
+import Typography from 'antd/lib/typography';
 import AddIcon from '@ant-design/icons/FileAddOutlined';
+import TableToolbar from '../../../../components/TableToolbar';
+const ActionEditAndDelete = ({ record, onTriggerEdit, onDelete, disableEdit }) => {
+  return (
+    <Space size="middle">
+      <Typography.Link disabled={disableEdit} onClick={() => onTriggerEdit(record)}>
+        {'Edit'}
+      </Typography.Link>
+      <Popconfirm
+        title="Bạn có chắc muốn xóa?"
+        onConfirm={() => onDelete(record)}
+        okText="OK"
+        cancelText="Không"
+      >
+        <a key="delete" href="/#">
+          {' '}
+          Xóa
+        </a>
+      </Popconfirm>
+    </Space>
+  );
+};
 function ArtistManager(props) {
   const dispatch = useDispatch();
   const fetching = useSelector(selectFetchingArtists);
@@ -30,22 +54,15 @@ function ArtistManager(props) {
       key: 'about',
       editable: true,
     },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => <ActionEditAndDelete record={record} />,
+    },
   ];
   return (
     <div>
-      <div style={{ lineHeight: 1, overflowX: 'auto', overflowY: 'hidden' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 0' }}>
-          <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-            <h3 style={{ marginBottom: 0 }}>Quản lý tài khoản</h3>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <Button onClick={() => {}} style={{ float: 'right' }} type="primary">
-              <AddIcon />
-              {'Thêm'}
-            </Button>
-          </div>
-        </div>
-      </div>
+      <TableToolbar title="Quản lý tác giả" triggerAdd={() => {}} />
       {fetching ? (
         <Skeleton />
       ) : (

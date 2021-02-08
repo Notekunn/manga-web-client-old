@@ -9,40 +9,43 @@ import Page404 from '../features/app/pages/Exception/404/';
 import BasicLayout from '../layouts/BasicLayout';
 import SecurityLayout from '../layouts/SecurityLayout';
 import BlankLayout from '../layouts/BlankLayout';
+import ErrorBoundary from '../features/app/components/ErrorBoundary';
 function AdminRoute() {
   return (
-    <Switch>
-      <Route path="/" exact>
-        <BasicLayout>
-          <HomePage />
-        </BasicLayout>
-      </Route>
-      <Route path="/auth">
-        <BasicLayout>
-          <AuthPage />
-        </BasicLayout>
-      </Route>
-      <Route path="/users">
-        <SecurityLayout needPermission="moderator">
-          <AccountManagerPage />
-        </SecurityLayout>
-      </Route>
-      <Route path="/me">
-        <SecurityLayout>
-          <ProfilePage />
-        </SecurityLayout>
-      </Route>
-      <Route path="/artists">
-        <SecurityLayout needPermission="moderator">
-          <ArtistManagerPage />
-        </SecurityLayout>
-      </Route>
-      <Route path="*">
-        <BlankLayout>
-          <Page404 />
-        </BlankLayout>
-      </Route>
-    </Switch>
+    <ErrorBoundary>
+      <Switch>
+        <Route path="/" exact>
+          <BasicLayout>
+            <HomePage />
+          </BasicLayout>
+        </Route>
+        <Route path="/auth">
+          <BasicLayout>
+            <AuthPage />
+          </BasicLayout>
+        </Route>
+        <Route path="/users">
+          <SecurityLayout needPermission="moderator">
+            <AccountManagerPage />
+          </SecurityLayout>
+        </Route>
+        <Route path="/me">
+          <SecurityLayout>
+            <ProfilePage />
+          </SecurityLayout>
+        </Route>
+        <Route path="/artists">
+          <SecurityLayout needPermission="moderator">
+            <ArtistManagerPage />
+          </SecurityLayout>
+        </Route>
+        <Route path="*">
+          <BlankLayout>
+            <Page404 />
+          </BlankLayout>
+        </Route>
+      </Switch>
+    </ErrorBoundary>
   );
 }
 
