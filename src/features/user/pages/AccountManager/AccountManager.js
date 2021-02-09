@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Form, Skeleton, Modal } from 'antd';
+import { Table, Skeleton } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { generateColumns } from './TableCollumns';
 import UpdateAccount from '../../components/UpdateAccount';
@@ -57,6 +57,7 @@ const EditableTable = () => {
       <TableToolbar
         title="Quản lý tài khoản"
         triggerAdd={() => dispatch(showModal('ADD_ACCOUNT'))}
+        triggerSync={() => dispatch(fetchUsers())}
       />
       <Table
         bordered

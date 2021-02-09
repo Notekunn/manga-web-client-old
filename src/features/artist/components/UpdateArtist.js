@@ -1,3 +1,4 @@
+import { useEffect, memo } from 'react';
 import { Form, Input, Modal } from 'antd';
 import PropTypes from 'prop-types';
 const rules = {
@@ -8,14 +9,17 @@ const rules = {
     },
   ],
 };
-const AddArtist = (props) => {
+const UpdateArtist = (props) => {
   const [form] = Form.useForm();
-  const { modalVisible, closeModal, onSubmit: handleSubmit, modalLoading } = props;
+  const { modalVisible, closeModal, onSubmit: handleSubmit, modalLoading, values } = props;
   const onSubmit = async () => {
-    const values = await form.validateFields();
-    handleSubmit(values);
-    form.resetFields();
+    const val = await form.validateFields();
+    handleSubmit({ ...values, ...val });
   };
+  useEffect(() => {
+    form.setFieldsValue(values);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalVisible]);
   return (
     <Modal
       width={640}
@@ -23,7 +27,7 @@ const AddArtist = (props) => {
         padding: '32px 40px 18px',
       }}
       destroyOnClose
-      title="Thêm tác giả"
+      title="Sửa tác giả"
       visible={modalVisible}
       onCancel={closeModal}
       onOk={onSubmit}
@@ -40,10 +44,17 @@ const AddArtist = (props) => {
     </Modal>
   );
 };
-AddArtist.propTypes = {
+UpdateArtist.propTypes = {
   modalVisible: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   modalLoading: PropTypes.bool,
+  values: PropTypes.shape({
+    name: PropTypes.string,
+    userName: PropTypes.string,
+  }),
 };
-export default AddArtist;
+UpdateArtist.defaultProps = {
+  values: {},
+};
+export default memo(UpdateArtist);

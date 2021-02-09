@@ -8,7 +8,14 @@ import Popconfirm from 'antd/lib/popconfirm';
 import Typography from 'antd/lib/typography';
 import TableToolbar from '../../../../components/TableToolbar';
 import AddArtist from '../../components/AddArtist';
-import { selectModalShowing, selectModalLoading, hideModal } from '../../../app/globalSlice';
+import UpdateArtist from '../../components/UpdateArtist';
+import { addArtist } from '../../artistSlice';
+import {
+  selectModalShowing,
+  selectModalLoading,
+  hideModal,
+  showModal,
+} from '../../../app/globalSlice';
 const ActionEditAndDelete = ({ record, onTriggerEdit, onDelete, disableEdit }) => {
   return (
     <Space size="middle">
@@ -31,6 +38,7 @@ const ActionEditAndDelete = ({ record, onTriggerEdit, onDelete, disableEdit }) =
 };
 function ArtistManager(props) {
   const dispatch = useDispatch();
+  const [edittingItem, setEditingItem] = useState({});
   const fetching = useSelector(selectFetchingArtists);
   const artists = useSelector(selectArtists);
   const modalShowing = useSelector(selectModalShowing);
@@ -39,6 +47,20 @@ function ArtistManager(props) {
     dispatch(fetchArtists());
   }, [dispatch]);
   if (fetching) return <Skeleton />;
+  const addEvent = (values) => {
+    dispatch(addArtist(values));
+    dispatch(hideModal());
+  };
+  const updateEvent = (values) => {
+    dispatch(hideModal());
+  };
+  const deleteEvent = (values) => {
+    console.log('DELETE: ', values);
+  };
+  const triggerEdit = (item) => {
+    setEditingItem(item);
+    if (item) dispatch(showModal('UPDATE_ARTIST'));
+  };
   const columns = [
     {
       title: 'Họ và tên',
@@ -59,12 +81,23 @@ function ArtistManager(props) {
     {
       title: 'Action',
       key: 'action',
-      render: (_, record) => <ActionEditAndDelete record={record} />,
+      render: (_, record) => (
+        <ActionEditAndDelete
+          record={record}
+          onTriggerEdit={triggerEdit}
+          onDelete={deleteEvent}
+          disableEdit={modalLoading === 'UPDATE_ARTIST'}
+        />
+      ),
     },
   ];
   return (
     <div>
-      <TableToolbar title="Quản lý tác giả" triggerAdd={() => {}} />
+      <TableToolbar
+        title="Quản lý tác giả"
+        triggerAdd={() => dispatch(showModal('ADD_ARTIST'))}
+        triggerSync={() => dispatch(fetchArtists())}
+      />
       {fetching ? (
         <Skeleton />
       ) : (
@@ -83,7 +116,14 @@ function ArtistManager(props) {
         closeModal={() => dispatch(hideModal())}
         modalVisible={modalShowing === 'ADD_ARTIST'}
         modalLoading={modalLoading === 'ADD_ARTIST'}
-        onSubmit={console.log}
+        onSubmit={addEvent}
+      />
+      <UpdateArtist
+        closeModal={() => dispatch(hideModal())}
+        modalVisible={modalShowing === 'UPDATE_ARTIST'}
+        modalLoading={modalLoading === 'UPDATE_ARTIST'}
+        onSubmit={updateEvent}
+        values={edittingItem}
       />
     </div>
   );
