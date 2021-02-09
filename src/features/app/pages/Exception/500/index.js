@@ -1,4 +1,4 @@
-import Link from 'react-router-dom/Link';
+import { Link } from 'react-router-dom';
 import Result from 'antd/lib/result';
 import Button from 'antd/lib/button';
 const Page500 = () => (
