@@ -9,25 +9,26 @@ import {
   updateUser,
   selectUsers,
   selectFetchingUsers,
-  selectAddingUser,
-  selectModalAddUserVisible,
-  showModal,
-  hideModal,
 } from '../../userSlice';
 import { generateColumns } from './TableCollumns';
 import './AccountManager.css';
 import UpdateAccount from '../../components/UpdateAccount';
 import TableToolbar from '../../../../components/TableToolbar';
+import {
+  selectModalShowing,
+  selectModalLoading,
+  hideModal,
+  showModal,
+} from '../../../app/globalSlice';
 
 const EditableTable = () => {
   const [form] = Form.useForm();
-  const modalVisible = useSelector(selectModalAddUserVisible);
-  const addingUser = useSelector(selectAddingUser);
   const data = useSelector(selectUsers);
-  const [editModalVisible, setEditModalVisible] = useState(false);
   const fetching = useSelector(selectFetchingUsers);
   const dispatch = useDispatch();
   const [editingItem, setEditingItem] = useState({});
+  const modalShowing = useSelector(selectModalShowing);
+  const modalLoading = useSelector(selectModalLoading);
   useEffect(() => {
     dispatch(fetchUsers());
     return () => {};
@@ -35,17 +36,17 @@ const EditableTable = () => {
 
   const updateEvent = (values) => {
     dispatch(updateUser({ ...editingItem, ...values }));
-    setEditModalVisible(false);
+    dispatch(hideModal());
   };
   const deleteEvent = (_id) => dispatch(removeUser(_id));
 
   const triggerEdit = (item) => {
     if (!item) return;
     setEditingItem({ ...item });
-    setEditModalVisible(true);
+    dispatch(showModal('UPDATE_ACCOUNT'));
   };
 
-  const columns = generateColumns(triggerEdit, deleteEvent, editModalVisible);
+  const columns = generateColumns(triggerEdit, deleteEvent, modalShowing === 'UPDATE_ACCOUNT');
   const modalSubmit = () => {
     form
       .validateFields()
@@ -59,7 +60,10 @@ const EditableTable = () => {
   };
   return (
     <div>
-      <TableToolbar title="Quản lý tài khoản" triggerAdd={() => dispatch(showModal())} />
+      <TableToolbar
+        title="Quản lý tài khoản"
+        triggerAdd={() => dispatch(showModal('ADD_ACCOUNT'))}
+      />
       {fetching ? (
         <Skeleton />
       ) : (
@@ -76,8 +80,8 @@ const EditableTable = () => {
       )}
       <Modal
         title="Thêm tài khoản"
-        visible={modalVisible}
-        confirmLoading={addingUser}
+        visible={modalShowing === 'ADD_ACCOUNT'}
+        confirmLoading={modalLoading === 'ADD_ACCOUNT'}
         onOk={modalSubmit}
         onCancel={() => dispatch(hideModal())}
         destroyOnClose={true}
@@ -86,8 +90,9 @@ const EditableTable = () => {
       </Modal>
       <UpdateAccount
         onSubmit={updateEvent}
-        onCancel={() => setEditModalVisible(false)}
-        updateModalVisible={editModalVisible}
+        closeModal={() => dispatch(hideModal())}
+        modalVisible={modalShowing === 'UPDATE_ACCOUNT'}
+        modalLoading={modalLoading === 'UPDATE_ACCOUNT'}
         values={editingItem}
       />
     </div>

@@ -10,7 +10,7 @@ import {
 } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectLogged, logout } from '../../features/auth/authSlice';
-import { showMessage } from '../../features/app/alertSlice';
+import message from 'antd/lib/message';
 const { SubMenu } = Menu;
 
 function TopNavigation(props) {
@@ -23,24 +23,20 @@ function TopNavigation(props) {
       setSelected(e.key);
       switch (e.key) {
         case 'login':
-          dispatch(
-            showMessage({
-              message: 'Bạn đang chuyển đến trang đăng nhập',
-              duration: 3,
-              key: 'redirect',
-            }),
-          );
+          message.info({
+            message: 'Bạn đang chuyển đến trang đăng nhập',
+            duration: 3,
+            key: 'redirect',
+          });
           history.push('/auth');
           break;
         case 'logout':
           dispatch(logout());
-          dispatch(
-            showMessage({
-              message: 'Đăng xuất thành công',
-              duration: 3,
-              key: 'redirect',
-            }),
-          );
+          message.info({
+            message: 'Đăng xuất thành công',
+            duration: 3,
+            key: 'redirect',
+          });
           break;
         case 'users':
           history.push('/users');

@@ -8,6 +8,7 @@ import Popconfirm from 'antd/lib/popconfirm';
 import Typography from 'antd/lib/typography';
 import TableToolbar from '../../../../components/TableToolbar';
 import AddArtist from '../../components/AddArtist';
+import { selectModalShowing, selectModalLoading, hideModal } from '../../../app/globalSlice';
 const ActionEditAndDelete = ({ record, onTriggerEdit, onDelete, disableEdit }) => {
   return (
     <Space size="middle">
@@ -29,10 +30,11 @@ const ActionEditAndDelete = ({ record, onTriggerEdit, onDelete, disableEdit }) =
   );
 };
 function ArtistManager(props) {
-  const [addModalVisible, setAddModalVisible] = useState(true);
   const dispatch = useDispatch();
   const fetching = useSelector(selectFetchingArtists);
   const artists = useSelector(selectArtists);
+  const modalShowing = useSelector(selectModalShowing);
+  const modalLoading = useSelector(selectModalLoading);
   useEffect(() => {
     dispatch(fetchArtists());
   }, [dispatch]);
@@ -78,8 +80,9 @@ function ArtistManager(props) {
         />
       )}
       <AddArtist
-        closeModal={() => setAddModalVisible(false)}
-        modalVisible={addModalVisible}
+        closeModal={() => dispatch(hideModal())}
+        modalVisible={modalShowing === 'ADD_ARTIST'}
+        modalLoading={modalLoading === 'ADD_ARTIST'}
         onSubmit={console.log}
       />
     </div>

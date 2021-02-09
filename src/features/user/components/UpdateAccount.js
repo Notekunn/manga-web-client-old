@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Input, Modal, Select, Steps, Spin } from 'antd';
+import PropTypes from 'prop-types';
 const { Step } = Steps;
 const { Option } = Select;
 const formLayout = {
@@ -71,12 +72,7 @@ const rules = {
 const UpdateForm = (props) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [form] = Form.useForm();
-  const {
-    onSubmit: handleUpdate,
-    onCancel: handleUpdateModalVisible,
-    updateModalVisible,
-    values,
-  } = props;
+  const { onSubmit: handleUpdate, closeModal, modalVisible, modalLoading, values } = props;
   const [formVals, setFormVals] = useState({
     name: values.name,
     userName: values.userName,
@@ -184,7 +180,7 @@ const UpdateForm = (props) => {
             Quay lại
           </Button>
         )}
-        <Button onClick={() => handleUpdateModalVisible(false, values)}>Huỷ</Button>
+        <Button onClick={() => closeModal(false, values)}>Huỷ</Button>
         <Button type="primary" onClick={handleNext}>
           {currentStep >= steps.length - 1 ? 'Hoàn tất' : 'Tiếp theo'}
         </Button>
@@ -200,9 +196,10 @@ const UpdateForm = (props) => {
       }}
       destroyOnClose
       title="Cập nhật tài khoản"
-      visible={updateModalVisible}
+      visible={modalVisible}
       footer={renderFooter()}
-      onCancel={handleUpdateModalVisible}
+      onCancel={closeModal}
+      confirmLoading={modalLoading}
     >
       <Steps
         style={{
@@ -222,5 +219,11 @@ const UpdateForm = (props) => {
     </Modal>
   );
 };
-
-export default UpdateForm;
+UpdateForm.propTypes = {
+  modalLoading: PropTypes.bool,
+  modalVisible: PropTypes.bool.isRequired,
+  values: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+};
+export default React.memo(UpdateForm);
