@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Form, Skeleton, Modal, Button } from 'antd';
+import { Table, Form, Skeleton, Modal } from 'antd';
 import AddAccount from '../../components/AddAccount';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -17,7 +17,6 @@ import {
 import { generateColumns } from './TableCollumns';
 import './AccountManager.css';
 import UpdateAccount from '../../components/UpdateAccount';
-import AddIcon from '@ant-design/icons/FolderAddOutlined';
 import TableToolbar from '../../../../components/TableToolbar';
 
 const EditableTable = () => {

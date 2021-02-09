@@ -1,14 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchArtists, selectFetchingArtists, selectArtists } from '../../artistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Skeleton from 'antd/lib/skeleton';
 import Table from 'antd/lib/table';
-import Button from 'antd/lib/button';
 import Space from 'antd/lib/space';
 import Popconfirm from 'antd/lib/popconfirm';
 import Typography from 'antd/lib/typography';
-import AddIcon from '@ant-design/icons/FileAddOutlined';
 import TableToolbar from '../../../../components/TableToolbar';
+import AddArtist from '../../components/AddArtist';
 const ActionEditAndDelete = ({ record, onTriggerEdit, onDelete, disableEdit }) => {
   return (
     <Space size="middle">
@@ -30,6 +29,7 @@ const ActionEditAndDelete = ({ record, onTriggerEdit, onDelete, disableEdit }) =
   );
 };
 function ArtistManager(props) {
+  const [addModalVisible, setAddModalVisible] = useState(true);
   const dispatch = useDispatch();
   const fetching = useSelector(selectFetchingArtists);
   const artists = useSelector(selectArtists);
@@ -77,6 +77,11 @@ function ArtistManager(props) {
           rowKey={(record) => record._id}
         />
       )}
+      <AddArtist
+        closeModal={() => setAddModalVisible(false)}
+        modalVisible={addModalVisible}
+        onSubmit={console.log}
+      />
     </div>
   );
 }
