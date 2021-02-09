@@ -20,4 +20,3 @@ ${artistFragment}
 export const getAll = () => {
   return fetchWithoutToken(getAllQuery).then((res) => res?.artists);
 };
-getAll().then(console.log);

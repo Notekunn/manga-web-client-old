@@ -24,7 +24,11 @@ const artistSlice = createSlice({
     [fetchArtists.rejected]: (state, action) => {
       state.fetchingArtists = false;
       state.artists = [];
-      message.error('Lấy tác giả thất bại: ' + action?.error);
+      message.error({
+        content: 'Lấy tác giả thất bại',
+        key: 'artist/fetchArtists',
+        duration: 3,
+      });
     },
   },
 });

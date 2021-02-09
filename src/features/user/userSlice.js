@@ -85,14 +85,15 @@ const userSlice = createSlice({
       state.addingUser = false;
       state.users.push(action.payload);
       state.modalAddUserVisible = false;
-      message.success({ content: 'Thêm người dùng thành công!', key: 'user/removeUser' });
+      message.success({ content: 'Thêm người dùng thành công!', key: 'user/addUser' });
     },
     [addUser.rejected]: (state, action) => {
       state.addingUser = false;
       state.addUserError = action.error?.message;
       message.error({
         content: 'Thêm người dùng thất bại: ' + action.error?.message,
-        key: 'user/updateUser',
+        key: 'user/addUser',
+        duration: 3,
       });
     },
     [removeUser.pending]: (state, action) => {
@@ -106,6 +107,7 @@ const userSlice = createSlice({
       message.error({
         content: 'Xoá người dùng thất bại: ' + action.error.message,
         key: 'user/removeUser',
+        duration: 3,
       });
     },
     [updateUser.pending]: (state, action) => {
@@ -117,7 +119,11 @@ const userSlice = createSlice({
       message.success({ content: 'Cập nhật người dùng thành công!', key: 'user/updateUser' });
     },
     [updateUser.rejected]: (state, action) => {
-      message.error({ content: 'Cập nhật người dùng thất bại!', key: 'user/updateUser' });
+      message.error({
+        content: 'Cập nhật người dùng thất bại: ' + action.error.message,
+        key: 'user/updateUser',
+        duration: 3,
+      });
     },
   },
 });

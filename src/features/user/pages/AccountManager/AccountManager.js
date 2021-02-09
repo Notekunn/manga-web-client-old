@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Form, Skeleton, Modal } from 'antd';
-import AddAccount from '../../components/AddAccount';
 import { useSelector, useDispatch } from 'react-redux';
+import { generateColumns } from './TableCollumns';
+import UpdateAccount from '../../components/UpdateAccount';
+import TableToolbar from '../../../../components/TableToolbar';
+import AddAccount from '../../components/AddAcount';
 import {
   fetchUsers,
   addUser,
@@ -10,19 +13,15 @@ import {
   selectUsers,
   selectFetchingUsers,
 } from '../../userSlice';
-import { generateColumns } from './TableCollumns';
-import './AccountManager.css';
-import UpdateAccount from '../../components/UpdateAccount';
-import TableToolbar from '../../../../components/TableToolbar';
 import {
   selectModalShowing,
   selectModalLoading,
   hideModal,
   showModal,
 } from '../../../app/globalSlice';
+import './AccountManager.css';
 
 const EditableTable = () => {
-  const [form] = Form.useForm();
   const data = useSelector(selectUsers);
   const fetching = useSelector(selectFetchingUsers);
   const dispatch = useDispatch();
@@ -38,6 +37,10 @@ const EditableTable = () => {
     dispatch(updateUser({ ...editingItem, ...values }));
     dispatch(hideModal());
   };
+  const addEvent = (values) => {
+    dispatch(addUser(values));
+    dispatch(hideModal());
+  };
   const deleteEvent = (_id) => dispatch(removeUser(_id));
 
   const triggerEdit = (item) => {
@@ -47,47 +50,30 @@ const EditableTable = () => {
   };
 
   const columns = generateColumns(triggerEdit, deleteEvent, modalShowing === 'UPDATE_ACCOUNT');
-  const modalSubmit = () => {
-    form
-      .validateFields()
-      .then(() => {
-        const { userName, name, email, password } = form.getFieldsValue();
-        dispatch(addUser({ userName, name, email, password }));
-      })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
-      });
-  };
+
+  if (fetching) return <Skeleton />;
   return (
     <div>
       <TableToolbar
         title="Quản lý tài khoản"
         triggerAdd={() => dispatch(showModal('ADD_ACCOUNT'))}
       />
-      {fetching ? (
-        <Skeleton />
-      ) : (
-        <Table
-          bordered
-          dataSource={data}
-          columns={columns}
-          rowClassName="editable-row"
-          pagination={{
-            pageSize: 10,
-          }}
-          rowKey={(record) => record._id}
-        />
-      )}
-      <Modal
-        title="Thêm tài khoản"
-        visible={modalShowing === 'ADD_ACCOUNT'}
-        confirmLoading={modalLoading === 'ADD_ACCOUNT'}
-        onOk={modalSubmit}
-        onCancel={() => dispatch(hideModal())}
-        destroyOnClose={true}
-      >
-        <AddAccount form={form} />
-      </Modal>
+      <Table
+        bordered
+        dataSource={data}
+        columns={columns}
+        rowClassName="editable-row"
+        pagination={{
+          pageSize: 10,
+        }}
+        rowKey={(record) => record._id}
+      />
+      <AddAccount
+        onSubmit={addEvent}
+        closeModal={() => dispatch(hideModal())}
+        modalLoading={modalLoading === 'ADD_ACCOUNT'}
+        modalVisible={modalShowing === 'ADD_ACCOUNT'}
+      />
       <UpdateAccount
         onSubmit={updateEvent}
         closeModal={() => dispatch(hideModal())}
