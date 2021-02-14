@@ -7,6 +7,7 @@ const siteMap = {
   '/manager/artists': 'Quản lý tác giả',
   '/users': 'Quản lý nhân viên',
   '/me': 'Thông tin cá nhân',
+  '/auth': 'Đăng nhập',
 };
 const splitPath = (pathname) => {
   const snippets = pathname.split('/').filter((p) => !!p);
@@ -23,7 +24,7 @@ export default withRouter(function Item(props) {
     <Breadcrumb style={{ margin: '16px 0' }} routes>
       {links.map((url) => (
         <Breadcrumb.Item key={url}>
-          <Link to={url}>{siteMap[url] || '_'}</Link>
+          <Link to={url}>{siteMap[url]}</Link>
         </Breadcrumb.Item>
       ))}
     </Breadcrumb>
