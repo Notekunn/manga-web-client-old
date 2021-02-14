@@ -92,6 +92,7 @@ const AddAccount = (props) => {
       onCancel={closeModal}
       onOk={onSubmit}
       confirmLoading={modalLoading}
+      forceRender
     >
       <Form {...formItemLayout} form={form} name="register" scrollToFirstError>
         <Form.Item name="email" label="E-mail" rules={rules.email}>

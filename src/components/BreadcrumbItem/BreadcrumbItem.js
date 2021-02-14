@@ -3,13 +3,15 @@ import { Link, withRouter } from 'react-router-dom';
 import Breadcrumb from 'antd/lib/breadcrumb';
 const siteMap = {
   '/': 'Home',
+  '/manager': 'Quản lý',
+  '/manager/artists': 'Quản lý tác giả',
   '/users': 'Quản lý nhân viên',
-  '/artists': 'Quản lý tác giả',
   '/me': 'Thông tin cá nhân',
 };
 const splitPath = (pathname) => {
-  const snippets = pathname.split('/');
-  return snippets.map((_, i) => `/${snippets.slice(0, i + 1).join('/')}`);
+  const snippets = pathname.split('/').filter((p) => !!p);
+  let linkMap = snippets.map((_, i) => `/${snippets.slice(0, i + 1).join('/')}`);
+  return ['/', ...linkMap];
 };
 export default withRouter(function Item(props) {
   const {
@@ -21,20 +23,9 @@ export default withRouter(function Item(props) {
     <Breadcrumb style={{ margin: '16px 0' }} routes>
       {links.map((url) => (
         <Breadcrumb.Item key={url}>
-          <Link to={url}>{siteMap[url]}</Link>
+          <Link to={url}>{siteMap[url] || '_'}</Link>
         </Breadcrumb.Item>
       ))}
-      {/* <Breadcrumb.Item key="home">
-				<Link to="/">Home</Link>
-			</Breadcrumb.Item>
-			{pathSnippets.map((_, index) => {
-				const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-				return (
-					<Breadcrumb.Item key={url}>
-						<Link to={url}>{siteMap[url]}</Link>
-					</Breadcrumb.Item>
-				);
-			})} */}
     </Breadcrumb>
   );
 });

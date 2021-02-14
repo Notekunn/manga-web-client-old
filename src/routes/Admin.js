@@ -34,7 +34,7 @@ function AdminRoute() {
             <ProfilePage />
           </SecurityLayout>
         </Route>
-        <Route path="/artists">
+        <Route path="/manager/artists">
           <SecurityLayout needPermission="moderator">
             <ArtistManagerPage />
           </SecurityLayout>

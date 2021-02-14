@@ -32,6 +32,7 @@ const UpdateArtist = (props) => {
       onCancel={closeModal}
       onOk={onSubmit}
       confirmLoading={modalLoading}
+      forceRender
     >
       <Form form={form}>
         <Form.Item name="name" label="Tên tác giả" rules={rules.name} hasFeedback>

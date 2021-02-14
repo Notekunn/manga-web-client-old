@@ -200,6 +200,7 @@ const UpdateForm = (props) => {
       footer={renderFooter()}
       onCancel={closeModal}
       confirmLoading={modalLoading}
+      forceRender
     >
       <Steps
         style={{
