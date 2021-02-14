@@ -33,7 +33,14 @@ mutation($_id: ID!, $artistInput: ArtistChangesInput!) {
 }
 ${artistFragment}
 `;
-
+const deleteQuery = `
+mutation ($_id: ID!){
+  deleteArtist(_id: $_id){
+    success
+    rowsDeleted
+  }
+}
+`;
 export const getAll = async () => {
   const res = await fetchWithoutToken(getAllQuery);
   return res?.artists;
@@ -50,4 +57,9 @@ export const createArtist = async (token, { name, about, coverUrl }) => {
   const variables = { artistInput: { name, about, coverUrl } };
   const res = await fetchWithToken(token)(createQuery, variables);
   return res?.createArtist;
+};
+export const deleteArtist = async (token, _id) => {
+  const variables = { _id };
+  const res = await fetchWithToken(token)(deleteQuery, variables);
+  return res?.deleteArtist;
 };

@@ -39,7 +39,7 @@ const authSlice = createSlice({
     },
     [login.rejected]: (state, action) => {
       return {
-        error: action.error,
+        error: action.error.message,
         session: {},
       };
     },

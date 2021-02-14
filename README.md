@@ -1,3 +1,5 @@
+[![Action status](https://github.com/Notekunn/manga-web-client/workflows/Deploy%20to%20Firebase/badge.svg)](https://github.com/notekunn/notekunn/actions)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

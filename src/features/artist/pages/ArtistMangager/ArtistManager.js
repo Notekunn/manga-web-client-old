@@ -9,7 +9,7 @@ import Typography from 'antd/lib/typography';
 import TableToolbar from '../../../../components/TableToolbar';
 import AddArtist from '../../components/AddArtist';
 import UpdateArtist from '../../components/UpdateArtist';
-import { addArtist } from '../../artistSlice';
+import { addArtist, removeArtist, updateArtist } from '../../artistSlice';
 import {
   selectModalShowing,
   selectModalLoading,
@@ -52,10 +52,11 @@ function ArtistManager(props) {
     dispatch(hideModal());
   };
   const updateEvent = (values) => {
+    dispatch(updateArtist(values));
     dispatch(hideModal());
   };
-  const deleteEvent = (values) => {
-    console.log('DELETE: ', values);
+  const deleteEvent = (record) => {
+    dispatch(removeArtist(record._id));
   };
   const triggerEdit = (item) => {
     setEditingItem(item);
