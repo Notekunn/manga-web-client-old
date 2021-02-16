@@ -1,15 +1,16 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import HomePage from '../features/app/pages/Home/';
-import AuthPage from '../features/auth/pages/Auth/';
-import AccountManagerPage from '../features/user/pages/AccountManager/';
-import ArtistManagerPage from '../features/artist/pages/ArtistMangager/';
-import ProfilePage from '../features/user/pages/Profile/';
-import Page404 from '../features/app/pages/Exception/404/';
-import BasicLayout from '../layouts/BasicLayout';
-import SecurityLayout from '../layouts/SecurityLayout';
-import BlankLayout from '../layouts/BlankLayout';
-import ErrorBoundary from '../features/app/components/ErrorBoundary';
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+import HomePage from "../features/app/pages/Home/";
+import AuthPage from "../features/auth/pages/Auth/";
+import AccountManagerPage from "../features/user/pages/AccountManager/";
+import ArtistManagerPage from "../features/artist/pages/ArtistMangager/";
+import CategoryManagerPage from "../features/category/pages/CategoryMangager/";
+import ProfilePage from "../features/user/pages/Profile/";
+import Page404 from "../features/app/pages/Exception/404/";
+import BasicLayout from "../layouts/BasicLayout";
+import SecurityLayout from "../layouts/SecurityLayout";
+import BlankLayout from "../layouts/BlankLayout";
+import ErrorBoundary from "../features/app/components/ErrorBoundary";
 function AdminRoute() {
   return (
     <ErrorBoundary>
@@ -37,6 +38,11 @@ function AdminRoute() {
         <Route path="/manager/artists">
           <SecurityLayout needPermission="moderator">
             <ArtistManagerPage />
+          </SecurityLayout>
+        </Route>
+        <Route path="/manager/categories">
+          <SecurityLayout needPermission="moderator">
+            <CategoryManagerPage />
           </SecurityLayout>
         </Route>
         <Route path="*">
